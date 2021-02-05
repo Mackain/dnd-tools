@@ -209,3 +209,211 @@ function rollD20() {
 
     document.getElementById("quest").innerHTML = questGiver + "wants to hire you to " + task + "- " + reason;
   }
+
+  function generateEncounter() {
+    var setup = "Nothing happens.";
+    var monster = "nothing"
+    var reward = "no reward."
+    // The setup
+    switch(rollD20()) {
+        case 1:
+            setup = "The birds go silent.";
+            break;
+        case 2:
+            setup = "A paniced local comes running towards you!";
+            break;
+        case 3:
+            setup = "You hear a fight nearby.";
+            break;
+        case 4:
+            setup = "The road is blocked.";
+            break;
+        case 5:
+            setup = "You are ambushed!";
+            break;
+        case 6:
+            setup = "The grund shakes.";
+            break;
+        case 7:
+            setup = "You find the scene of a recent crime.";
+            break;
+        case 8:
+            setup = "A corpse lie in your path.";
+            break;
+        case 9:
+            setup = "You see tracks before you.";
+            break;
+        case 10:
+            setup = "You see smoke nearby.";
+            break;
+        case 11:
+            setup = "A trapped local calls out for help!";
+            break;
+        case 12:
+            setup = "You come across a trail of blood.";
+            break;
+        case 13:
+            setup = "You hear a terrified scream nearby.";
+            break;
+        case 14:
+            setup = "You hear an angry roar nearby.";
+            break;
+        case 15:
+            setup = "You hear a crazed wail.";
+            break;
+        case 16:
+            setup = "You find a dead adventurer.";
+            break;
+        case 17:
+            setup = "You see an ambush before they see you.";
+            break;
+        case 18:
+            setup = "There is a trap in your path.";
+            break;
+        case 19:
+            setup = "You are cught completely by surprise.";
+            break;
+        case 20:
+            setup = "BOOM MOTHERFUCKER!!!";
+            break;
+        default:
+            setup = "Nothing happens.";
+            break;
+    }
+
+    // The monster
+    switch(rollD20()) {
+        case 1:
+          monster = "a crazed hobo";
+          break;
+        case 2:
+          monster = "a group of goblins";
+          break;
+        case 3:
+          monster = "kobolds";
+          break;
+        case 4:
+          monster = "a pack of wolves";
+          break;
+        case 5:
+          monster = "a bear";
+          break;
+        case 6:
+          monster = "a group of bandits";
+          break;
+        case 7:
+          monster = "a hag";
+          break;
+        case 8:
+          monster = "a bugbear";
+          break;
+        case 9:
+          monster = "orcs";
+          break;
+        case 10:
+          monster = "NOTHING";
+          break;
+        case 11:
+          monster = "an illusion";
+          break;
+        case 12:
+          monster = "a giant spider";
+          break;
+        case 13:
+          monster = "a beast, like nothing you have ever seen before";
+          break;
+        case 14:
+          monster = "a mimic";
+          break;
+        case 15:
+          monster = "an ooze or gelatinous cube";
+          break;
+        case 16:
+          monster = "the undead";
+          break;
+        case 17:
+          monster = "a crazed wizard";
+          break;
+        case 18:
+          monster = "an easily fooled ogre";
+          break;
+        case 19:
+          monster = "a giant snake";
+          break;
+        case 20:
+          monster = "A DRAGON";
+          break;
+        default:
+          monster = "nothing";
+          break;
+    }
+
+    // The reward
+    switch(rollD20()) {
+        case 1:
+            reward = "... wait, you somehow lost money?";
+            break;
+        case 2:
+            reward = "20 gold!";
+            break;
+        case 3:
+            reward = "a nice weapon.";
+            break;
+        case 4:
+            reward = "5 gold.";
+            break;
+        case 5:
+            reward = "10 gold.";
+            break;
+        case 6:
+            reward = "a treasure map!";
+            break;
+        case 7:
+            reward = "an unidentified magic scroll.";
+            break;
+        case 8:
+            reward = "a nice suit of armor or shield.";
+            break;
+        case 9:
+            reward = "a healing potion.";
+            break;
+        case 10:
+            reward = "the favor of the locals.";
+            break;
+        case 11:
+            reward = "being praised as a local hero!";
+            break;
+        case 12:
+            reward = "inspiration!";
+            break;
+        case 13:
+            reward = "a bag of gemstones!";
+            break;
+        case 14:
+            reward = "free lodging.";
+            break;
+        case 15:
+            reward = "free good and supplies for a week.";
+            break;
+        case 16:
+            reward = "a mysterious tome!";
+            break;
+        case 17:
+            reward = "a stone tablet with strange symbols";
+            break;
+        case 18:
+            reward = "a signet ring of a local noble family.";
+            break;
+        case 19:
+            reward = "a common magic item.";
+            break;
+        case 20:
+            reward = "THE FACOR OF THE GODS!";
+            break;
+        default:
+            reward = "no reward.";
+            break;
+    }
+
+    document.getElementById("encounter").innerHTML = setup + " And before you know it, you have to fight " + monster + ", and your reward shall be " + reward;
+  }
