@@ -152,7 +152,7 @@ function rollD20() {
     // The Why
     switch(rollD20()) {
       case 1:
-        reason = "cuz fuck em, that's why!";
+        reason = "cuz fuck you, that's why!";
         break;
       case 2:
         reason = "so that they can proove their innocence.";
