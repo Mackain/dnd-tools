@@ -2,6 +2,7 @@ function rollD20() {
     return Math.floor(Math.random() * 20) + 1;
   }
 
+
   function generateQuest() {
     var questGiver = "The void";
     var task = "do nothing"
@@ -416,4 +417,193 @@ function rollD20() {
     }
 
     document.getElementById("encounter").innerHTML = setup + " And before you know it, you have to fight " + monster + ", and your reward shall be " + reward;
+  }
+
+  function generateNpc() {
+    var apperance = "a bland ";
+    var gender = "androgynous"
+    var race = "nothing"
+    var trait = "no reward."
+
+    // Physical apperance
+    switch(rollD20()) {
+        case 1:
+            apperance = "a skinny ";
+            break;
+        case 2:
+            apperance = "a THICC ";
+            break;
+        case 3:
+            apperance = "a fat ";
+            break;
+        case 4:
+            apperance = "an ugly ";
+            break;
+        case 5:
+            apperance = "a scarred ";
+            break;
+        case 6:
+            apperance = "a very muscular ";
+            break;
+        case 7:
+            apperance = "a very thin ";
+            break;
+        case 8:
+            apperance = "a somewhat chubby ";
+            break;
+        case 9:
+            apperance = "a common looking ";
+            break;
+        case 10:
+            apperance = "a common looking ";
+            break;
+        case 11:
+            apperance = "a common looking ";
+            break;
+        case 12:
+            apperance = "an old ";
+            break;
+        case 13:
+            apperance = "a young ";
+            break;
+        case 14:
+            apperance = "an amputee ";
+            break;
+        case 15:
+            apperance = "a very pale ";
+            break;
+        case 16:
+            apperance = "a very tanned ";
+            break;
+        case 17:
+            apperance = "a very short ";
+            break;
+        case 18:
+            apperance = "a very tall ";
+            break;
+        case 19:
+            apperance = "a beautiful ";
+            break;
+        case 20:
+            apperance = "an unnaturally beautiful ";
+            break;
+        default:
+            apperance = "a bland ";
+            break;
+    }
+
+    // Gender
+    var g = rollD20();
+    if (g == 1 || g == 20) {
+        gender = "androgynous ";
+    } else if (g > 1 && g <= 10) {
+        gender = "female ";
+    } else {
+        gender = "male ";
+    }
+
+    // Race
+    switch(rollD20()) {
+        case 1:
+            race = "??? ";
+            break;
+        case 2:
+            race = "halfling ";
+            break;
+        case 3:
+            race = "halfling ";
+            break;
+        case 4:
+            race = "elf ";
+            break;
+        case 5:
+            race = "drow ";
+            break;
+        case 6:
+            race = "half-orc ";
+            break;
+        case 7:
+            race = "half-elf ";
+            break;
+        case 8:
+            race = "dwarf ";
+            break;
+        case 9:
+            race = "gnome ";
+            break;
+        case 20:
+            race = "unknown creature ";
+            break;
+        default:
+            race = "human ";
+            break;
+    }
+    // Trait
+    switch(rollD20()) {
+        case 1:
+            trait = "thinks you are here to kill them.";
+            break;
+        case 2:
+            trait = "appears to be drunk/hungover.";
+            break;
+        case 3:
+            trait = "is NOT very intelligent.";
+            break;
+        case 4:
+            trait = "is NOT very wise.";
+            break;
+        case 5:
+            trait = "is NOT very charismatic.";
+            break;
+        case 6:
+            trait = "instantly dislikes you.";
+            break;
+        case 7:
+            trait = "instantly dislikes you a little too much.";
+            break;
+        case 8:
+            trait = "can't take any situation seriously.";
+            break;
+        case 9:
+            trait = "has not slept all night.";
+            break;
+        case 10:
+            trait = "speaks with the accent of a far-away land.";
+            break;
+        case 11:
+            trait = "has lived arround hgere their whole life.";
+            break;
+        case 12:
+            trait = "has no idea what's going on.";
+            break;
+        case 13:
+            trait = "is very intelligent.";
+            break;
+        case 14:
+            trait = "is very charismatic.";
+            break;
+        case 15:
+            trait = "is very wise.";
+            break;
+        case 16:
+            trait = "instantly likes you.";
+            break;
+        case 17:
+            trait = "instantly likes you a little too much.";
+            break;
+        case 18:
+            trait = "is very paranoid.";
+            break;
+        case 19:
+            trait = "thinks you are on to their dark secret.";
+            break;
+        case 20:
+            trait = "is a legendaty creature in disguise.";
+            break;
+        default:
+            trait = "is boring.";
+            break;
+    }
+
+    document.getElementById("npc").innerHTML = "You meet a " + apperance + gender + race + " who " + trait;
   }
