@@ -605,5 +605,5 @@ function rollD20() {
             break;
     }
 
-    document.getElementById("npc").innerHTML = "You meet a " + apperance + gender + race + " who " + trait;
+    document.getElementById("npc").innerHTML = "You meet " + apperance + gender + race + " who " + trait;
   }
