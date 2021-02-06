@@ -241,7 +241,7 @@ function rollD20() {
             setup = "You are ambushed!";
             break;
         case 6:
-            setup = "The grund shakes.";
+            setup = "The ground shakes.";
             break;
         case 7:
             setup = "You find the scene of a recent crime.";
@@ -402,7 +402,7 @@ function rollD20() {
             reward = "free lodging.";
             break;
         case 15:
-            reward = "free good and supplies for a week.";
+            reward = "free food and supplies for a week.";
             break;
         case 16:
             reward = "a mysterious tome!";
