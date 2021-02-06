@@ -409,7 +409,7 @@ function rollD20() {
             reward = "a common magic item.";
             break;
         case 20:
-            reward = "THE FACOR OF THE GODS!";
+            reward = "THE FAVOR OF THE GODS!";
             break;
         default:
             reward = "no reward.";
