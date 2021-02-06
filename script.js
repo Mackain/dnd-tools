@@ -280,7 +280,7 @@ function rollD20() {
             setup = "There is a trap in your path.";
             break;
         case 19:
-            setup = "You are cught completely by surprise.";
+            setup = "You are caught completely by surprise.";
             break;
         case 20:
             setup = "BOOM MOTHERFUCKER!!!";
