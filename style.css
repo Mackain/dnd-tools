@@ -139,3 +139,15 @@ body {
   box-sizing: border-box;
   border: 1px solid rgb(43, 43, 43);
 }
+
+#mapOut {
+  width: 800px;
+  word-wrap: break-word;
+}
+
+.mapMenu {
+  width: 800px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 10px);
+}
