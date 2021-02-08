@@ -48,11 +48,11 @@ function loadMap() {
         drawMap(map);
     }
     
-    if (xLatSeed != null && xLonSeed != null) {
+    if (xLatSeed != null && xLatSeed != -1  && xLonSeed != null && xLonSeed != -1) {
         drawX (xLatSeed, xLonSeed);
     }
 
-    if (oLatSeed != null && oLonSeed != null) {
+    if (oLatSeed != null && oLatSeed != -1  && oLonSeed != null && oLonSeed != -1) {
         drawO (oLatSeed, oLonSeed);
     }
 
@@ -60,7 +60,9 @@ function loadMap() {
 
 function saveMap() {
   var div = document.getElementById('mapOut');
-  div.innerHTML = window.location.hostname + "/dnd-tools/map/?s=" + mapToString(gMap) + "&xlat=" + gXLat + "&xlon=" + gXLon + "&olat=" + gOLat + "&olon=" + gOLon;
+  var str = window.location.hostname + "/dnd-tools/map/?s=" + mapToString(gMap) + "&xlat=" + gXLat + "&xlon=" + gXLon + "&olat=" + gOLat + "&olon=" + gOLon;
+
+  div.innerHTML = "<a href='"+str+"'>"+str+"</a>";
 }
 
 function drawMap(map)  {
