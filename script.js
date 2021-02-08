@@ -215,27 +215,27 @@ function rollD20() {
       "an unnaturally beautiful "
     ];
 
-    // Gender - 45% chance of male, 45% female, 10% androgunous.
+    // Gender - 45% chance of male, 45% female, 10% androgynous/unknown.
     var gender = "male "
     var g = rollD20();
     if (g == 0 || g == 19) {
-        gender = "androgynous ";
+        gender = "androgynous/unknown ";
     } else if (g > 0 && g <= 9) {
         gender = "female ";
     }
 
-    // Race - 50% chance of human.
+    // Race - 50% chance of human. 10% chance of dwarf. 10% chance of elf. 5% everything else.
     var raceList = [
-      "??? ",
+      "gnome ",
       "halfling ",
-      "halfling ",
+      "elf ",
       "elf ",
       "drow ",
       "half-orc ",
       "half-elf ",
       "dwarf ",
-      "gnome ",
-      "unknown creature "
+      "dwarf ",
+      "??? "
     ];
 
     var race = "human ";
