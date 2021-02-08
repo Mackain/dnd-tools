@@ -60,7 +60,7 @@ function loadMap() {
 
 function saveMap() {
   var div = document.getElementById('mapOut');
-  div.innerHTML = window.location.hostname + "/map/?s=" + mapToString(gMap) + "&xlat=" + gXLat + "&xlon=" + gXLon + "&olat=" + gOLat + "&olon=" + gOLon;
+  div.innerHTML = window.location.hostname + "/dnd-tools/map/?s=" + mapToString(gMap) + "&xlat=" + gXLat + "&xlon=" + gXLon + "&olat=" + gOLat + "&olon=" + gOLon;
 }
 
 function drawMap(map)  {
