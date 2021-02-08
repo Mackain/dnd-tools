@@ -46,3 +46,69 @@ body {
 .container {
   padding-top: 5px;
 }
+
+#mapContainer {
+  background-color: rgb(46, 46, 46);
+  height: 800px;
+  width:800px;
+  margin:0 auto
+}
+.mapSquare {
+  
+}
+
+.m1 {
+  /* forest */
+  background-color: green;
+  content:url(icons/forest.png);
+}
+.m2 {
+  /* deep forest */
+  background-color: darkgreen;
+  content:url(icons/forest.png);
+}
+.m3 {
+  /* large town */
+  background-color: yellowgreen;
+  content:url(icons/city.png);
+}
+.m4 {
+  /* hills */
+  background-color: yellowgreen;
+}
+.m5 {
+  /* small village */
+  background-color: yellowgreen;
+  content:url(icons/village.png);
+}
+.m6 {
+  /* hamlet */
+  background-color: yellowgreen;
+  content:url(icons/hamlet.png);
+}
+.m7 {
+  /* mountains */
+  background-color: gray;
+  content:url(icons/mountains.png);
+}
+.m8 {
+  /* field */
+  background-color: yellowgreen;
+}
+.m9 {
+  /* farmlands */
+  background-color: yellow;
+  content:url(icons/farmlands.png);
+}
+.m0 {
+  /* water */
+  background-color: blue;
+}
+
+.tile {
+  height: 80px;
+  width: 80px;
+  float: left;
+  box-sizing: border-box;
+  border: 1px solid rgb(43, 43, 43);
+}

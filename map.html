@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title>DnD Tools</title>
+        <script type="text/javascript" src="mapScript.js"></script>
+        <link rel="stylesheet" href="style.css"/>
+        <script>
+            window.onload = function() {
+              loadMap();
+            };
+          </script>
+    </head>
+
+    <body>
+        <div id="mapContainer"></div>
+        <button type="button" onclick="bruteForceMap()">Brute Force Map!</button>
+        <button type="button" onclick="saveMap()" id="saveBtn">Save Map</button>
+        <div id="mapOut"></div>
+    </body>
+    
+</html>
