@@ -51,11 +51,10 @@ body {
   background-color: rgb(46, 46, 46);
   height: 800px;
   width:800px;
-  margin:0 auto
+  margin:0 auto;
+  position: relative;
 }
-.mapSquare {
-  
-}
+
 
 .m1 {
   /* forest */
@@ -103,6 +102,16 @@ body {
 .m0 {
   /* water */
   background-color: blue;
+}
+
+.x {
+  position: absolute;
+  content:url(icons/x.png);
+}
+
+.o {
+  position: absolute;
+  content:url(icons/o.png);
 }
 
 .tile {
