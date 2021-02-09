@@ -199,3 +199,178 @@ function purgeMap() {
   const myNode = document.getElementById("mapContainer");
   myNode.innerHTML = '';
 }
+
+// lets do genetic algorithms! because I am insane and did not get enough sleep last night!
+function rateMap(map) {
+  var score = 0;
+  var cityCount = 0;
+  var villageCount = 0;
+  var hamletCount = 0;
+  var fieldCount = 0;
+  var mountainCount = 0;
+  var lakeCount = 0;
+
+  for (ri = 0; ri < map.length; ri++) {
+
+    switch(map[ri]) {
+      case 6: 
+        //hamlet
+        hamletCount++;
+        break;
+      case 5:
+        //village
+        villageCount++;
+        break;
+      case 6:
+        //hamlet
+        hamletCount++;
+        break;
+      case 3:
+        //city
+        cityCount++;
+        break;
+      case 7:
+        //mountain
+        mountainCount++;
+        break;
+      case 8:
+        //fields
+        fieldCount++;
+        break;
+      case 0:
+        //lakes
+        lakeCount++;
+        break;
+      default:
+        break;
+    }
+  }
+
+  // 10 points if there are 3 cities, extra points if there is less. punish if there are more.
+  if (cityCount < 4 )
+  {
+    score += 3 - cityCount + 10;
+  } else {
+    score -= 10;
+    score += (cityCount * -1);
+  }
+
+  // punish if there are more mountains or lakes than open fields.
+  if (lakeCount > fieldCount) {
+    score += fieldCount - lakeCount;
+  }
+  if (mountainCount > fieldCount) {
+    score += fieldCount - mountainCount;
+  }
+
+  // extra points if farm lands are next to towns, hamlets or cities. punish if they are in the middle of nowhere.
+
+  // extra points if deep forest is next to forest.
+
+  // extra points the furhter apart cities are.
+
+  return score;
+}
+
+function RunGeneticAlgorithm() {
+  purgeMap();
+  // genesis population size = 128
+  var genesisPopulationSize = 2048;
+  var population = new Array();
+  var offspring = new Array();
+
+  // generate a lot of random maps (a generation)
+  for (it = 0; it < genesisPopulationSize; it++) {
+    population.push(generateRandomMap());
+  }
+  
+
+  while (population.length > 1) {
+    offspring = RunTournament(population);
+    population = offspring;
+  }
+  drawMap(population[0])
+  
+}
+
+// takes a generation and returns a offspring generation
+function RunTournament(generation) {
+
+    var offspringGeneration = new Array();
+
+    var splitOn = generation.length/2;
+    var groupA = generation.slice(0,splitOn);
+    var groupB = generation.slice(splitOn);
+
+    var winnerList = new Array();
+
+    // itterate all combatant pairs
+    while (groupA.length > 0) {
+      var combatantA = groupA.shift();
+      var combatantB = groupB.shift();
+
+      var combatantAScore = rateMap(combatantA);
+      var combatantBScore = rateMap(combatantB);
+      // fight
+      if ( combatantAScore > combatantBScore) {
+        // combatant A wins
+        winnerList.push(combatantA);
+
+      } else if (combatantAScore < combatantBScore) {
+        // combatant B wins
+        winnerList.push(combatantB);
+
+      } else {
+        // draw, flip coin
+        if (Math.floor(Math.random() * 2) == 0) {
+          // combatant A wins
+          winnerList.push(combatantA);
+
+        }else {
+          // combatant B wins
+          winnerList.push(combatantB);
+        }
+      }
+      
+      
+
+    }
+
+    if(winnerList.length == 1) {
+      return winnerList;
+    }
+    // winners make babies
+    var splitOn = winnerList.length/2;
+    var groupA = winnerList.slice(0,splitOn);
+    var groupB = winnerList.slice(splitOn);
+
+    while (groupA.length > 0) {
+      var parrentA = groupA.shift();
+      var parrentB = groupB.shift();
+      // babies goes into next generation
+      offspringGeneration.push(spliceGenetics(parrentA, parrentB));
+      offspringGeneration.push(spliceGenetics(parrentB, parrentA));
+    }
+
+        
+    return offspringGeneration;
+}
+
+
+function spliceGenetics(p1, p2) {
+  var newOffspring = new Array();
+  var splicePoint = p1.length/2;
+  var g1 = p1.slice(0,splicePoint);
+  var g2 = p2.slice(splicePoint);
+
+  // split the genes
+  newOffspring = g1;
+  for (si = 0; si < g2.length; si++) {
+    newOffspring.push(p2[si]);
+  }
+
+  // random mutation
+
+  return newOffspring;
+}
+    
