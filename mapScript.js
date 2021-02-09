@@ -257,6 +257,16 @@ function rateMap(map) {
     score += (cityCount * -1);
   }
 
+  // punish if there are more hamlets than open villages. Cuz villages are more fun.
+  if (hamletCount > villageCount) {
+    score += villageCount - hamletCount;
+  }
+  // punish if there are more villages or open fields. To make map less cluttered.
+  if (villageCount > fieldCount) {
+    score += fieldCount - villageCount;
+  }
+
+  
   // punish if there are more mountains or lakes than open fields.
   if (lakeCount > fieldCount) {
     score += fieldCount - lakeCount;
