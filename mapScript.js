@@ -375,4 +375,10 @@ function spliceGenetics(p1, p2) {
 
   return newOffspring;
 }
+
+
+function justMakeRandomMap() {
+  purgeMap();
+  drawMap(generateRandomMap());
+}
     
