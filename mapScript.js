@@ -247,7 +247,9 @@ function rateMap(map) {
   }
 
   // 10 points if there are 3 cities, extra points if there is less. punish if there are more.
-  if (cityCount < 4 )
+  if (cityCount == 0) {
+    score -= 10;
+  } else if (cityCount < 4 )
   {
     score += 3 - cityCount + 10;
   } else {

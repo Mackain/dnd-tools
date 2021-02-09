@@ -50,7 +50,7 @@ body {
 .mapFrame {
   width: 880px;
   height: 880px;
-  background-color: darkslategray;
+  background-color: rgb(43, 43, 43);;
   margin:0 auto;
   position: relative;
 }
