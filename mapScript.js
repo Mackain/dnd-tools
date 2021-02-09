@@ -383,7 +383,9 @@ function spliceGenetics(p1, p2) {
   }
 
   // random mutation
-
+  var mutationIndex =  Math.random() * 10;
+  newOffspring[mutationIndex] = Math.random() * 10;
+  
   return newOffspring;
 }
 
