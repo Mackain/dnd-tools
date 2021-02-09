@@ -175,11 +175,17 @@ function validateMap() {
       case 3:
         //city
         cityCount++;
+        // cities should be at least 4 squares appart.
+        if (checkForType(gMap, i, 4, 3)) {
+          return false;
+        } 
         break;
       default:
         break;
     }
   }
+
+  
   
   if (cityCount > 3 || villageCount > 5 || hamletCount > 5) {
     return false;
@@ -213,6 +219,14 @@ function rateMap(map) {
   for (ri = 0; ri < map.length; ri++) {
 
     switch(map[ri]) {
+      case 2:
+        // extra points if deep forest is next to forest.
+        if (checkForType(map, ri, 1, 1)) {
+          score++;
+        } else {
+          score--;
+        }
+        break;
       case 6: 
         //hamlet
         hamletCount++;
@@ -228,6 +242,10 @@ function rateMap(map) {
       case 3:
         //city
         cityCount++;
+        // cities should be at least 4 squares appart.
+        if (checkForType(map, ri, 2, 3)) {
+          score -= 10;
+        } 
         break;
       case 7:
         //mountain
@@ -236,6 +254,13 @@ function rateMap(map) {
       case 8:
         //fields
         fieldCount++;
+        break;
+      case 9:
+        // farmlands
+        // farmlands should be next to settlement, not in the middle of nowhere.
+        if (checkForType(map, ri, 1, 3) == false && checkForType(map, ri, 1, 5) == false ) {
+          score -=10;
+        }
         break;
       case 0:
         //lakes
@@ -265,7 +290,6 @@ function rateMap(map) {
   if (villageCount > fieldCount) {
     score += fieldCount - villageCount;
   }
-
   
   // punish if there are more mountains or lakes than open fields.
   if (lakeCount > fieldCount) {
@@ -275,19 +299,84 @@ function rateMap(map) {
     score += fieldCount - mountainCount;
   }
 
-  // extra points if farm lands are next to towns, hamlets or cities. punish if they are in the middle of nowhere.
+  // the fewer villages the better
+  score -= villageCount;
+  score -= hamletCount;
 
-  // extra points if deep forest is next to forest.
 
-  // extra points the furhter apart cities are.
+  
 
   return score;
+}
+
+
+function checkForType(map, position, distance, type)
+{
+  var foundType = false;
+  var pointer = position - distance;
+  for (var i = 0; i <= distance*2; i++ ) {
+    // if left of position, make sure it does not wrap
+
+      if (pointer <= position) {
+        if (pointer%10 <= position%10) {
+          foundType = drawVerticalSlice(map, pointer, distance*2, position, type)
+        }
+      } else {
+        // if right of position, make sure it does not wrap
+        if (pointer%10 > position%10 ) {
+          foundType = drawVerticalSlice(map, pointer, distance*2, position, type)
+        }
+      }
+    if (foundType) {
+      return true;
+    }
+    pointer++;
+  }
+  return false;
+}
+
+function drawVerticalSlice(map, midpoint, totalLenght, skip, type) {
+  var flag = false;
+  var pointer = midpoint;
+  for (var i = 0; i <= totalLenght/2; i++ ) {
+    if(pointer > -1) {
+      if (pointer != skip) {
+        flag = checkPosition(map, pointer, type);
+      }
+      pointer -= 10;
+    }
+    if (flag) {
+      return true;
+    }
+  }
+  var pointer = midpoint;
+  for (var i = 0; i <= totalLenght/2; i++ ) {
+    if(pointer < 101) {
+      if (pointer != skip) {
+        flag = checkPosition(map, pointer, type);
+      }
+      pointer += 10;
+    }
+    if (flag) {
+      return true;
+    }
+  }
+}
+
+function checkPosition(map, index, type)
+{
+  if (map[index] == type) {
+    return true;
+  } else {
+    //lol(map, index);
+    return false;
+  }
 }
 
 function RunGeneticAlgorithm() {
   purgeMap();
   // genesis population size = 128
-  var genesisPopulationSize = 2048;
+  var genesisPopulationSize = 8192;
   var population = new Array();
   var offspring = new Array();
 
@@ -296,7 +385,6 @@ function RunGeneticAlgorithm() {
     population.push(generateRandomMap());
   }
   
-
   while (population.length > 1) {
     offspring = RunTournament(population);
     population = offspring;
