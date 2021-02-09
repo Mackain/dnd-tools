@@ -382,10 +382,12 @@ function spliceGenetics(p1, p2) {
     newOffspring.push(p2[si]);
   }
 
-  // random mutation
-  var mutationIndex =  Math.random() * 10;
-  newOffspring[mutationIndex] = Math.random() * 10;
-  
+  // 50% chance of random mutation
+  if (Math.floor(Math.random() * 2) == 0) {
+    var mutationIndex =  Math.random() * 10;
+    newOffspring[mutationIndex] = Math.random() * 10;
+  }
+
   return newOffspring;
 }
 
