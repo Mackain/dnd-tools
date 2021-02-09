@@ -303,8 +303,8 @@ function rateMap(map) {
   score -= villageCount;
   score -= hamletCount;
 
-
-  
+  // the more fields the better!
+  score += fieldCount;
 
   return score;
 }

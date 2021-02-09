@@ -81,7 +81,7 @@ body {
 }
 .m2 {
   /* deep forest */
-  background-color: darkgreen;
+  background-color: rgb(0, 68, 0);
   content:url(icons/forest.png);
 }
 .m3 {
