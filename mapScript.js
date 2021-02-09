@@ -301,7 +301,8 @@ function RunGeneticAlgorithm() {
     offspring = RunTournament(population);
     population = offspring;
   }
-  drawMap(population[0])
+  gMap = population[0];
+  drawMap(gMap);
   
 }
 
@@ -389,6 +390,7 @@ function spliceGenetics(p1, p2) {
 
 function justMakeRandomMap() {
   purgeMap();
-  drawMap(generateRandomMap());
+  gMap = generateRandomMap();
+  drawMap(gMap);
 }
     
