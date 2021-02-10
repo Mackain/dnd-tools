@@ -16,16 +16,7 @@ function generateRandomMap() {
   return map;
 }
 
-function bruteForceMap() {
-  var loopFlag = false;
-  while(loopFlag == false) {
-    purgeMap();
-    gMap = generateRandomMap();
-    loopFlag = validateMap();
-  }
-  drawMap(gMap);
-  
-}
+
 
 function loadMap() {
     var queryString = window.location.search;
@@ -83,7 +74,6 @@ function drawMap(map)  {
 }
 
 function calcX(p) {
-
     var oldX = document.getElementById("x");
     if (oldX != null ){
         gXLat = -1;
@@ -155,44 +145,6 @@ function drawO(lat, lon) {
     element.appendChild(o);
 }
 
-
-function validateMap() {
-
-  var cityCount = 0;
-  var villageCount = 0;
-  var hamletCount = 0;
-
-  for (i = 0; i < gMap.length; i++) {
-    switch(gMap[i]) {
-      case 6: 
-        //hamlet
-        hamletCount++;
-        break;
-      case 5:
-        //village
-        villageCount++;
-        break;
-      case 3:
-        //city
-        cityCount++;
-        // cities should be at least 4 squares appart.
-        if (checkForType(gMap, i, 4, 3)) {
-          return false;
-        } 
-        break;
-      default:
-        break;
-    }
-  }
-
-  
-  
-  if (cityCount > 3 || villageCount > 5 || hamletCount > 5) {
-    return false;
-  }
-  return true;
-}
-
 function mapToString(map) {
   var out = "";
   for (i = 0; i < map.length; i++) {
@@ -204,6 +156,182 @@ function mapToString(map) {
 function purgeMap() {
   const myNode = document.getElementById("mapContainer");
   myNode.innerHTML = '';
+}
+
+
+function checkForType(map, position, distance, type)
+{
+  var foundType = false;
+  var pointer = position - distance;
+  for (var i = 0; i <= distance*2; i++ ) {
+    // if left of position, make sure it does not wrap
+
+      if (pointer <= position) {
+        if (pointer%10 <= position%10) {
+          foundType = drawVerticalSlice(map, pointer, distance*2, position, type)
+        }
+      } else {
+        // if right of position, make sure it does not wrap
+        if (pointer%10 > position%10 ) {
+          foundType = drawVerticalSlice(map, pointer, distance*2, position, type)
+        }
+      }
+    if (foundType) {
+      return true;
+    }
+    pointer++;
+  }
+  return false;
+}
+
+function drawVerticalSlice(map, midpoint, totalLenght, skip, type) {
+  var flag = false;
+  var pointer = midpoint;
+  for (var i = 0; i <= totalLenght/2; i++ ) {
+    if(pointer > -1) {
+      if (pointer != skip) {
+        flag = checkPosition(map, pointer, type);
+      }
+      pointer -= 10;
+    }
+    if (flag) {
+      return true;
+    }
+  }
+  var pointer = midpoint;
+  for (var i = 0; i <= totalLenght/2; i++ ) {
+    if(pointer < 101) {
+      if (pointer != skip) {
+        flag = checkPosition(map, pointer, type);
+      }
+      pointer += 10;
+    }
+    if (flag) {
+      return true;
+    }
+  }
+}
+
+function checkPosition(map, index, type)
+{
+  if (map[index] == type) {
+    return true;
+  } else {
+    //lol(map, index);
+    return false;
+  }
+}
+
+//    █████████                                █████     ███                █████████   ████                               ███   █████    █████                     
+//   ███░░░░░███                              ░░███     ░░░                ███░░░░░███ ░░███                              ░░░   ░░███    ░░███                      
+//  ███     ░░░   ██████  ████████    ██████  ███████   ████   ██████     ░███    ░███  ░███   ███████  ██████  ████████  ████  ███████   ░███████   █████████████  
+// ░███          ███░░███░░███░░███  ███░░███░░░███░   ░░███  ███░░███    ░███████████  ░███  ███░░███ ███░░███░░███░░███░░███ ░░░███░    ░███░░███ ░░███░░███░░███ 
+// ░███    █████░███████  ░███ ░███ ░███████   ░███     ░███ ░███ ░░░     ░███░░░░░███  ░███ ░███ ░███░███ ░███ ░███ ░░░  ░███   ░███     ░███ ░███  ░███ ░███ ░███ 
+// ░░███  ░░███ ░███░░░   ░███ ░███ ░███░░░    ░███ ███ ░███ ░███  ███    ░███    ░███  ░███ ░███ ░███░███ ░███ ░███      ░███   ░███ ███ ░███ ░███  ░███ ░███ ░███ 
+//  ░░█████████ ░░██████  ████ █████░░██████   ░░█████  █████░░██████     █████   █████ █████░░███████░░██████  █████     █████  ░░█████  ████ █████ █████░███ █████
+//   ░░░░░░░░░   ░░░░░░  ░░░░ ░░░░░  ░░░░░░     ░░░░░  ░░░░░  ░░░░░░     ░░░░░   ░░░░░ ░░░░░  ░░░░░███ ░░░░░░  ░░░░░     ░░░░░    ░░░░░  ░░░░ ░░░░░ ░░░░░ ░░░ ░░░░░ 
+//                                                                                            ███ ░███                                                              
+//                                                                                           ░░██████                                                               
+//                                                                                            ░░░░░░
+
+function RunGeneticAlgorithm() {
+  purgeMap();
+  // genesis population size = 128
+  var genesisPopulationSize = 8192;
+  var population = new Array();
+  var offspring = new Array();
+
+  // generate a lot of random maps (a generation)
+  for (it = 0; it < genesisPopulationSize; it++) {
+    population.push(generateRandomMap());
+  }
+  
+  while (population.length > 1) {
+    offspring = RunTournament(population);
+    population = offspring;
+  }
+  gMap = population[0];
+  drawMap(gMap);
+}
+
+function spliceGenetics(p1, p2) {
+  var newOffspring = new Array();
+  var splicePoint = p1.length/2;
+  var g1 = p1.slice(0,splicePoint);
+  var g2 = p2.slice(splicePoint);
+
+  // split the genes
+  newOffspring = g1;
+  for (si = 0; si < g2.length; si++) {
+    newOffspring.push(p2[si]);
+  }
+
+  // 50% chance of random mutation
+  if (Math.floor(Math.random() * 2) == 0) {
+    var mutationIndex =  Math.random() * 10;
+    newOffspring[mutationIndex] = Math.random() * 10;
+  }
+
+  return newOffspring;
+}
+
+// takes a generation and returns a offspring generation
+function RunTournament(generation) {
+
+  var offspringGeneration = new Array();
+
+  var splitOn = generation.length/2;
+  var groupA = generation.slice(0,splitOn);
+  var groupB = generation.slice(splitOn);
+
+  var winnerList = new Array();
+
+  // itterate all combatant pairs
+  while (groupA.length > 0) {
+    var combatantA = groupA.shift();
+    var combatantB = groupB.shift();
+
+    var combatantAScore = rateMap(combatantA);
+    var combatantBScore = rateMap(combatantB);
+    // fight
+    if ( combatantAScore > combatantBScore) {
+      // combatant A wins
+      winnerList.push(combatantA);
+
+    } else if (combatantAScore < combatantBScore) {
+      // combatant B wins
+      winnerList.push(combatantB);
+
+    } else {
+      // draw, flip coin
+      if (Math.floor(Math.random() * 2) == 0) {
+        // combatant A wins
+        winnerList.push(combatantA);
+
+      }else {
+        // combatant B wins
+        winnerList.push(combatantB);
+      }
+    }
+  }
+
+  if(winnerList.length == 1) {
+    return winnerList;
+  }
+  // winners make babies
+  var splitOn = winnerList.length/2;
+  var groupA = winnerList.slice(0,splitOn);
+  var groupB = winnerList.slice(splitOn);
+
+  while (groupA.length > 0) {
+    var parrentA = groupA.shift();
+    var parrentB = groupB.shift();
+    // babies goes into next generation
+    offspringGeneration.push(spliceGenetics(parrentA, parrentB));
+    offspringGeneration.push(spliceGenetics(parrentB, parrentA));
+  }
+
+  return offspringGeneration;
 }
 
 // lets do genetic algorithms! because I am insane and did not get enough sleep last night!
@@ -310,179 +438,72 @@ function rateMap(map) {
 }
 
 
-function checkForType(map, position, distance, type)
-{
-  var foundType = false;
-  var pointer = position - distance;
-  for (var i = 0; i <= distance*2; i++ ) {
-    // if left of position, make sure it does not wrap
+//  ███████████                        █████                        ███████████                                     
+// ░░███░░░░░███                      ░░███                        ░░███░░░░░░█                                     
+//  ░███    ░███ ████████  █████ ████ ███████    ██████             ░███   █ ░   ██████  ████████   ██████   ██████ 
+//  ░██████████ ░░███░░███░░███ ░███ ░░░███░    ███░░███ ██████████ ░███████    ███░░███░░███░░███ ███░░███ ███░░███
+//  ░███░░░░░███ ░███ ░░░  ░███ ░███   ░███    ░███████ ░░░░░░░░░░  ░███░░░█   ░███ ░███ ░███ ░░░ ░███ ░░░ ░███████ 
+//  ░███    ░███ ░███      ░███ ░███   ░███ ███░███░░░              ░███  ░    ░███ ░███ ░███     ░███  ███░███░░░  
+// ███████████  █████     ░░████████  ░░█████ ░░██████             █████      ░░██████  █████    ░░██████ ░░██████ 
+//░░░░░░░░░░░  ░░░░░       ░░░░░░░░    ░░░░░   ░░░░░░             ░░░░░        ░░░░░░  ░░░░░      ░░░░░░   ░░░░░░  
 
-      if (pointer <= position) {
-        if (pointer%10 <= position%10) {
-          foundType = drawVerticalSlice(map, pointer, distance*2, position, type)
-        }
-      } else {
-        // if right of position, make sure it does not wrap
-        if (pointer%10 > position%10 ) {
-          foundType = drawVerticalSlice(map, pointer, distance*2, position, type)
-        }
-      }
-    if (foundType) {
-      return true;
-    }
-    pointer++;
+function bruteForceMap() {
+  var loopFlag = false;
+  while(loopFlag == false) {
+    purgeMap();
+    gMap = generateRandomMap();
+    loopFlag = validateMap();
   }
-  return false;
-}
-
-function drawVerticalSlice(map, midpoint, totalLenght, skip, type) {
-  var flag = false;
-  var pointer = midpoint;
-  for (var i = 0; i <= totalLenght/2; i++ ) {
-    if(pointer > -1) {
-      if (pointer != skip) {
-        flag = checkPosition(map, pointer, type);
-      }
-      pointer -= 10;
-    }
-    if (flag) {
-      return true;
-    }
-  }
-  var pointer = midpoint;
-  for (var i = 0; i <= totalLenght/2; i++ ) {
-    if(pointer < 101) {
-      if (pointer != skip) {
-        flag = checkPosition(map, pointer, type);
-      }
-      pointer += 10;
-    }
-    if (flag) {
-      return true;
-    }
-  }
-}
-
-function checkPosition(map, index, type)
-{
-  if (map[index] == type) {
-    return true;
-  } else {
-    //lol(map, index);
-    return false;
-  }
-}
-
-function RunGeneticAlgorithm() {
-  purgeMap();
-  // genesis population size = 128
-  var genesisPopulationSize = 8192;
-  var population = new Array();
-  var offspring = new Array();
-
-  // generate a lot of random maps (a generation)
-  for (it = 0; it < genesisPopulationSize; it++) {
-    population.push(generateRandomMap());
-  }
-  
-  while (population.length > 1) {
-    offspring = RunTournament(population);
-    population = offspring;
-  }
-  gMap = population[0];
   drawMap(gMap);
   
 }
 
-// takes a generation and returns a offspring generation
-function RunTournament(generation) {
+function validateMap() {
 
-    var offspringGeneration = new Array();
+  var cityCount = 0;
+  var villageCount = 0;
+  var hamletCount = 0;
 
-    var splitOn = generation.length/2;
-    var groupA = generation.slice(0,splitOn);
-    var groupB = generation.slice(splitOn);
-
-    var winnerList = new Array();
-
-    // itterate all combatant pairs
-    while (groupA.length > 0) {
-      var combatantA = groupA.shift();
-      var combatantB = groupB.shift();
-
-      var combatantAScore = rateMap(combatantA);
-      var combatantBScore = rateMap(combatantB);
-      // fight
-      if ( combatantAScore > combatantBScore) {
-        // combatant A wins
-        winnerList.push(combatantA);
-
-      } else if (combatantAScore < combatantBScore) {
-        // combatant B wins
-        winnerList.push(combatantB);
-
-      } else {
-        // draw, flip coin
-        if (Math.floor(Math.random() * 2) == 0) {
-          // combatant A wins
-          winnerList.push(combatantA);
-
-        }else {
-          // combatant B wins
-          winnerList.push(combatantB);
-        }
-      }
-      
-      
-
+  for (i = 0; i < gMap.length; i++) {
+    switch(gMap[i]) {
+      case 6: 
+        //hamlet
+        hamletCount++;
+        break;
+      case 5:
+        //village
+        villageCount++;
+        break;
+      case 3:
+        //city
+        cityCount++;
+        // cities should be at least 4 squares appart.
+        if (checkForType(gMap, i, 4, 3)) {
+          return false;
+        } 
+        break;
+      default:
+        break;
     }
-
-    if(winnerList.length == 1) {
-      return winnerList;
-    }
-    // winners make babies
-    var splitOn = winnerList.length/2;
-    var groupA = winnerList.slice(0,splitOn);
-    var groupB = winnerList.slice(splitOn);
-
-    while (groupA.length > 0) {
-      var parrentA = groupA.shift();
-      var parrentB = groupB.shift();
-      // babies goes into next generation
-      offspringGeneration.push(spliceGenetics(parrentA, parrentB));
-      offspringGeneration.push(spliceGenetics(parrentB, parrentA));
-    }
-
-        
-    return offspringGeneration;
+  }
+  
+  if (cityCount > 3 || villageCount > 5 || hamletCount > 5) {
+    return false;
+  }
+  return true;
 }
 
-
-function spliceGenetics(p1, p2) {
-  var newOffspring = new Array();
-  var splicePoint = p1.length/2;
-  var g1 = p1.slice(0,splicePoint);
-  var g2 = p2.slice(splicePoint);
-
-  // split the genes
-  newOffspring = g1;
-  for (si = 0; si < g2.length; si++) {
-    newOffspring.push(p2[si]);
-  }
-
-  // 50% chance of random mutation
-  if (Math.floor(Math.random() * 2) == 0) {
-    var mutationIndex =  Math.random() * 10;
-    newOffspring[mutationIndex] = Math.random() * 10;
-  }
-
-  return newOffspring;
-}
-
+// ███████████                            █████                             ████           ████ 
+// ░░███░░░░░███                          ░░███                             ░░███          ░░███ 
+//  ░███    ░███   ██████   ████████    ███████   ██████  █████████████      ░███   ██████  ░███ 
+//  ░██████████   ░░░░░███ ░░███░░███  ███░░███  ███░░███░░███░░███░░███     ░███  ███░░███ ░███ 
+//  ░███░░░░░███   ███████  ░███ ░███ ░███ ░███ ░███ ░███ ░███ ░███ ░███     ░███ ░███ ░███ ░███ 
+//  ░███    ░███  ███░░███  ░███ ░███ ░███ ░███ ░███ ░███ ░███ ░███ ░███     ░███ ░███ ░███ ░███ 
+//  █████   █████░░████████ ████ █████░░████████░░██████  █████░███ █████    █████░░██████  █████
+// ░░░░░   ░░░░░  ░░░░░░░░ ░░░░ ░░░░░  ░░░░░░░░  ░░░░░░  ░░░░░ ░░░ ░░░░░    ░░░░░  ░░░░░░  ░░░░░ 
 
 function justMakeRandomMap() {
   purgeMap();
   gMap = generateRandomMap();
   drawMap(gMap);
 }
-    
