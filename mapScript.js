@@ -407,7 +407,7 @@ function rateMap(map) {
     score += 3 - cityCount + 10;
   } else {
     score -= 10;
-    score += (cityCount * -1);
+    score += (cityCount * -10);
   }
 
   // punish if there are more hamlets than open villages. Cuz villages are more fun.
@@ -428,11 +428,11 @@ function rateMap(map) {
   }
 
   // the fewer villages the better
-  score -= villageCount;
-  score -= hamletCount;
+  score -= villageCount * 5;
+  score -= hamletCount * 5;
 
   // the more fields the better!
-  score += fieldCount;
+  score += fieldCount * 10;
 
   return score;
 }
