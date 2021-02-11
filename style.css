@@ -4,6 +4,19 @@ body {
   text-align: center;
 }
 
+a:link {
+  font-weight: bold;
+  color: bisque;
+}
+
+a:visited {
+  color: bisque;
+}
+
+a:hover {
+  color: yellow;
+}
+
 .blob {
   height: 29%;
   background-color: rgb(46, 46, 46);

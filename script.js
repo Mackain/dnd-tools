@@ -95,7 +95,88 @@ function generateQuest() {
 // ╚██████╔╝███████╗██║ ╚████║███████╗██║  ██║██║  ██║   ██║   ███████╗    ███████╗██║ ╚████║╚██████╗╚██████╔╝╚██████╔╝██║ ╚████║   ██║   ███████╗██║  ██║
 //  ╚═════╝ ╚══════╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝    ╚══════╝╚═╝  ╚═══╝ ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
 function generateEncounter() {
-  var reward = "no reward."
+  generateHostileEncounter();
+}
+
+function generateHostileEncounter() {
+
+  // The setup
+  var setupList = [
+    "The birds go silent.",
+    "A paniced local comes running towards you!",
+    "You hear a fight nearby.",
+    "The road is blocked.",
+    "You meet an adventurer who asks for your aid.",
+    "The ground shakes.",
+    "You find the scene of a recent crime.",
+    "A corpse lie in your path.",
+    "You see tracks before you.",
+    "You see smoke nearby.",
+    "A trapped local calls out for help!",
+    "You come across a trail of blood.",
+    "You hear a scream nearby.",
+    "A group of locals approach you with torches and pitchfork.",
+    "A traveling mechant asks for your aid.",
+    "You find a dead adventurer.",
+    "You see an ambush before they see you.",
+    "There is a trap in your path.",
+    "You are caught completely by surprise.",
+    "BOOM MOTHERFUCKER!!!"
+  ];
+
+  // The monster
+  var monsterList = [
+    "<a href='https://www.dndbeyond.com/monsters/berserker' target='_blank'>a crazed hobo</a>",
+    "<a href='https://www.dndbeyond.com/monsters/goblin' target='_blank'>a group of goblins</a>",
+    "<a href='https://www.dndbeyond.com/monsters/kobold' target='_blank'>kobolds</a>",
+    "<a href='https://www.dndbeyond.com/monsters/dire-wolf' target='_blank'>a pack of dire wolves</a>",
+    "<a href='https://www.dndbeyond.com/monsters/brown-bear' target='_blank'>a bear</a>",
+    "<a href='https://www.dndbeyond.com/monsters/bandit' target='_blank'>a group of bandits</a>",
+    "<a href='https://www.dndbeyond.com/monsters/owlbear' target='_blank'>an owlbear</a>",
+    "<a href='https://www.dndbeyond.com/monsters/bugbear' target='_blank'>a bugbear</a>",
+    "<a href='https://www.dndbeyond.com/monsters/orc' target='_blank'>a band of orcs</a>",
+    "<a href='https://www.dndbeyond.com/monsters/minotaur' target='_blank'>a minotaur</a>",
+    "<a href='https://www.dndbeyond.com/monsters/berserker' target='_blank'>an illusion</a>",
+    "<a href='https://www.dndbeyond.com/monsters/giant-spider' target='_blank'>a giant spider</a>",
+    "<a href='https://www.dndbeyond.com/monsters/werewolf' target='_blank'>a werewolf</a>",
+    "<a href='https://www.dndbeyond.com/monsters/mimic' target='_blank'>a mimic</a>",
+    "<a href='https://www.dndbeyond.com/monsters/harpy' target='_blank'>a flock of harpies</a>",
+    "<a href='https://www.dndbeyond.com/monsters/ghoul' target='_blank'>the undead</a>",
+    "<a href='https://www.dndbeyond.com/monsters/mage' target='_blank'>a crazed wizard</a>",
+    "<a href='https://www.dndbeyond.com/monsters/ogre' target='_blank'>an ogre</a>",
+    "<a href='https://www.dndbeyond.com/monsters/giant-constrictor-snake' target='_blank'>a giant snake</a>",
+    "<a href='https://www.dndbeyond.com/monsters/red-dragon-wyrmling' target='_blank'>A DRAGON</a>"
+  ];
+
+  // The reward
+  var rewardList = [
+    "... wait, you somehow lost money?",
+    "20 gold!",
+    "a nice weapon.",
+    "5 gold.",
+    "10 gold.",
+    "a treasure map!",
+    "an unidentified magic scroll.",
+    "a nice suit of armor or shield.",
+    "a healing potion.",
+    "the favor of the locals.",
+    "being praised as a local hero!",
+    "inspiration!",
+    "a bag of gemstones!",
+    "free lodging.",
+    "free food and supplies for a week.",
+    "a mysterious tome!",
+    "a stone tablet with strange symbols",
+    "a signet ring of a local noble family.",
+    "a common magic item.",
+    "THE FAVOR OF THE GODS!"
+  ];
+
+  document.getElementById("encounter").innerHTML = setupList[rollD20()] + " And before you know it, you have to fight " + monsterList[rollD20()] + ", and your reward shall be " + rewardList[rollD20()];
+}
+
+function generateFriendlyEncounter() {
+
   // The setup
   var setupList = [
     "The birds go silent.",
@@ -146,13 +227,13 @@ function generateEncounter() {
 
   // The reward
   var rewardList = [
-    "... wait, you somehow lost money?",
-    "20 gold!",
-    "a nice weapon.",
-    "5 gold.",
-    "10 gold.",
-    "a treasure map!",
-    "an unidentified magic scroll.",
+    "( ͡° ͜ʖ ͡°)",
+    "has valuable information about your quest.",
+    "provides you with food and safe shelter for the night.",
+    "has a common magic item for sale.",
+    "gives you inspiration.",
+    "sells weapons and ammunition.",
+    "",
     "a nice suit of armor or shield.",
     "a healing potion.",
     "the favor of the locals.",
@@ -168,7 +249,7 @@ function generateEncounter() {
     "THE FAVOR OF THE GODS!"
   ];
 
-  document.getElementById("encounter").innerHTML = setupList[rollD20()] + " And before you know it, you have to fight " + monsterList[rollD20()] + ", and your reward shall be " + rewardList[rollD20()];
+  document.getElementById("encounter").innerHTML = setupList[rollD20()] + " And you come across " + monsterList[rollD20()] + ", who " + rewardList[rollD20()];
 }
 
 //  ██████╗ ███████╗███╗   ██╗███████╗██████╗  █████╗ ████████╗███████╗    ███╗   ██╗██████╗  ██████╗
@@ -239,19 +320,19 @@ function generateNpc() {
 
   // Race - 50% chance of human. 10% chance of dwarf. 10% chance of elf. 5% everything else.
   var raceList = [
-    "gnome ",
-    "halfling ",
-    "elf ",
-    "elf ",
-    "drow ",
-    "half-orc ",
-    "half-elf ",
-    "dwarf ",
-    "dwarf ",
+    "<a href='https://www.fantasynamegenerators.com/dnd-gnome-names.php' target='_blank'>gnome</a> ",
+    "<a href='https://www.fantasynamegenerators.com/dnd-halfling-names.php' target='_blank'>halfling</a> ",
+    "<a href='https://www.fantasynamegenerators.com/dnd-elf-names.php' target='_blank'>elf</a> ",,
+    "<a href='https://www.fantasynamegenerators.com/dnd-elf-names.php' target='_blank'>elf</a> ",
+    "<a href='https://www.fantasynamegenerators.com/dnd-drow-names.php' target='_blank'>drow</a> ",
+    "<a href='https://www.fantasynamegenerators.com/dnd-half-orc-names.php' target='_blank'>half-orc</a> ",
+    "<a href='https://www.fantasynamegenerators.com/dnd-half-elf-names.php' target='_blank'>half-elf</a> ",
+    "<a href='https://www.fantasynamegenerators.com/dnd-dwarf-names.php' target='_blank'>dwarf</a> ",
+    "<a href='https://www.fantasynamegenerators.com/dnd-dwarf-names.php' target='_blank'>dwarf</a> ",
     "??? "
   ];
 
-  var race = "human ";
+  var race = "<a href='https://www.fantasynamegenerators.com/dnd-human-names.php' target='_blank'>human</a> ";
   var r = rollD20();
   if (r < 11) {
     race = raceList[r];
