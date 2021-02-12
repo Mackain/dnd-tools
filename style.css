@@ -3,10 +3,10 @@ body {
   color: lightgray;
   text-align: center;
 }
-
 a:link {
   font-weight: bold;
   color: white;
+  cursor: pointer;
 }
 
 a:visited {
@@ -51,6 +51,7 @@ a:hover {
   margin-bottom: 30px;
   height: 80px;
   width: 200px;
+  cursor: pointer;
 }
 
 .footer {
