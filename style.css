@@ -1,20 +1,20 @@
 body {
   background-color: black;
-  color: white;
+  color: lightgray;
   text-align: center;
 }
 
 a:link {
   font-weight: bold;
-  color: bisque;
+  color: white;
 }
 
 a:visited {
-  color: bisque;
+  color: white;
 }
 
 a:hover {
-  color: yellow;
+  color: white;
 }
 
 .blob {
@@ -27,6 +27,7 @@ a:hover {
 
 .blob h1 {
   padding-top: 30px;
+  color: white;
 }
 
 .blob p {
