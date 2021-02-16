@@ -1,8 +1,25 @@
 
 
-                                                  
+// lowest is 0, highest is 19                                                  
 function rollD20() {
     return Math.floor(Math.random() * 20);
+}
+
+function testDice() {
+  var rolls = 1000000;
+  console.log("Rolling the die " + rolls + " times.")
+  var resultList = new Array(); 
+  for (var i = 0; i < rolls; i++) {
+    var r = rollD20();
+    if(resultList[r] == null) {
+      resultList[r] = new Array(); 
+    }
+    resultList[r].push(r);
+  }
+  console.log("Results: ")
+  for (var j = 0; j < resultList.length; j++) {
+    console.log(resultList[j][0] + ": " + resultList[j].length);
+  }
 }
 
 //  ██████╗ ███████╗███╗   ██╗███████╗██████╗  █████╗ ████████╗███████╗     ██████╗ ██╗   ██╗███████╗███████╗████████╗
@@ -334,7 +351,7 @@ function generateNpc() {
 
   var race = "<a href='https://www.fantasynamegenerators.com/dnd-human-names.php' target='_blank'>human</a> ";
   var r = rollD20();
-  if (r < 11) {
+  if (r < 10) {
     race = raceList[r];
   }
 
