@@ -383,11 +383,11 @@ function generateTravelEvent(){
   var t = rollD20();
   // 20% chance of random encounter.
   if (t < 6){
-    return "you have a RANDOM ENCOUNTER! (use generator)"
+    return "You have a RANDOM ENCOUNTER! (use generator)"
   }
   // 20% chance of nothing happening.
   if (t > 14){
-    return "uneventfull day of travel."
+    return "Uneventfull day of travel."
   }
   // otherwise pick one from the random list.
   var travelEventList = [
@@ -397,12 +397,21 @@ function generateTravelEvent(){
     "You sleep under the constellation of the mage. Magic users wake up with inspiration.",
     "You sleep under the constellation of the warior. Mele players wake up with inspiration.",
     "A small creature has set up a merchant stall in the middle of nowhere. It trades treasures it as found (in nearby ruin) for food or fun trinkets.",
-    "The player taking lead makes an extra survival check DC " + Math.floor(Math.random() * 20) + ". On sucess find shortcut. (reroll for " + (days2travel -1) + " days)",
+    "The player taking lead makes a survival check DC " + Math.floor(Math.random() * 20) + ". On sucess find shortcut. (reroll for " + (days2travel -1) + " days)",
+    "The player taking lead makes a survival check DC " + Math.floor(Math.random() * 20) + ". On fail you get lost. (reroll for " + (days2travel + 2) + " days)",
     "The food you ate today has gone bad. You all spend the night in agony and wake up exhausted.",
     "A god gives a vision to one of the players when they sleep. They wake up with inspiration.",
     "A god is testing one of the players when they sleep. Wis save DC " + Math.floor(Math.random() * 20) + "or wake up exhausted.",
     "The stars align and the gods smile upon you. You go to sleep and have peaceful dreams. When you wake up your exhaustion is gone.",
-    "You travel trough a bountyful area. With ease you replenish your supplies with " + Math.floor(Math.random() * 6) + " days worth of rations per player."
+    "You travel trough a bountyful area. With ease you replenish your supplies with " + Math.floor(Math.random() * 6) + " days worth of rations per player.",
+    "Night watch make a " + Math.floor(Math.random() * 20) + " perception check to see animals breaking into the supplice. Fail and loose" + Math.floor(Math.random() * 6) + " days worth of rations per player.",
+    "Flies and insects keep disturbing you in your sleep. Con save " +  Math.floor(Math.random() * 20) + " or choose: only take short rest OR take long rest + a level of exhaustion.",
+    "You come across a wounded animal in your travels, if  aided it will dissapear into the wilderness but make triumphant return to aid you in a future battle!",
+    "A rare cosmic event will happen tonight. Players can choose to take one level of exhaustion to stay up late and witness it to get inspiration.",
+    "The air here is foul and food tends to spoil here. Someone make a roll with 50/50 chance to spoil" + Math.floor(Math.random() * 4) + " days worth of rations per player.",
+    "The party is mistaken for bandits by another adventuring party who are waiting in an ambush. They soon realize their misstake during combat and appologizes.",
+    "A sign made of junk poins into the wilderness. It reads \"DIS WAE FOR DAT GOOD GOOD.\"",
+    "An animal jumps across your path. Perception check DC " + Math.floor(Math.random() * 20) + " reveals it carries a magic necklace."
   ];
 
   return travelEventList[Math.floor(Math.random() * travelEventList.length)];
