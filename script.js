@@ -367,13 +367,13 @@ function travel(period) {
 
 function generateDay() {
   if (days2travel == 0) {
-    document.getElementById("travelLog").innerHTML = "You arrive! Your journey has finaly come to an end."
+    document.getElementById("travelLog").innerHTML = "<b>You arrive!</b> Your journey has finaly come to an end."
   } 
   else if (days2travel == 1){
-    document.getElementById("travelLog").innerHTML = "Last day of travel: " + generateTravelEvent()
+    document.getElementById("travelLog").innerHTML = "<b>Last day of travel:</b> " + generateTravelEvent()
     days2travel--;
   } else {
-    document.getElementById("travelLog").innerHTML = days2travel + " days left: " + generateTravelEvent()
+    document.getElementById("travelLog").innerHTML = "<b>" +days2travel + " days left:</b> " + generateTravelEvent()
     days2travel--;
   }
 }
@@ -390,5 +390,20 @@ function generateTravelEvent(){
     return "uneventfull day of travel."
   }
   // otherwise pick one from the random list.
-  return "lol idk stuff"
+  var travelEventList = [
+    "A dog wanders into camp. It wants to eat 1 ration and cuddle (give insipration) but disturb your sleep (roll wis save or disturb long rest/mediation)",
+    "There is unexpected bad weather. Make a survival DC 12 to find shelter for the night or be exhausted.",
+    "A band of traveling bards are heading in the same direction for a day. They entertain you on the road and you all get inspiration.",
+    "You sleep under the constellation of the mage. Magic users wake up with inspiration.",
+    "You sleep under the constellation of the warior. Mele players wake up with inspiration.",
+    "A small creature has set up a merchant stall in the middle of nowhere. It trades treasures it as found (in nearby ruin) for food or fun trinkets.",
+    "The player taking lead makes an extra survival check DC " + Math.floor(Math.random() * 20) + ". On sucess find shortcut. (reroll for " + (days2travel -1) + " days)",
+    "The food you ate today has gone bad. You all spend the night in agony and wake up exhausted.",
+    "A god gives a vision to one of the players when they sleep. They wake up with inspiration.",
+    "A god is testing one of the players when they sleep. Wis save DC " + Math.floor(Math.random() * 20) + "or wake up exhausted.",
+    "The stars align and the gods smile upon you. You go to sleep and have peaceful dreams. When you wake up your exhaustion is gone.",
+    "You travel trough a bountyful area. With ease you replenish your supplies with " + Math.floor(Math.random() * 6) + " days worth of rations per player."
+  ];
+
+  return travelEventList[Math.floor(Math.random() * travelEventList.length)];
 }
