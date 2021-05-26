@@ -190,8 +190,8 @@ function generateHostileEncounter() {
     "a common magic item.",
     "THE FAVOR OF THE GODS!"
   ];
-
-  document.getElementById("encounter").innerHTML = setupList[rollD20()] + " And before you know it, you have to fight " + monsterList[rollD20()] + ", and your reward shall be " + rewardList[rollD20()];
+  
+  document.getElementById("encounter").innerHTML = setupList[Math.floor(Math.random() * setupList.length)] + " And before you know it, you have to fight " + monsterList[Math.floor(Math.random() * monsterList.length)] + ", and your reward shall be " + rewardList[Math.floor(Math.random() * rewardList.length)];
 }
 
 function generateFriendlyEncounter() {
@@ -267,7 +267,7 @@ function generateFriendlyEncounter() {
     "a common magic item.",
     "THE FAVOR OF THE GODS!"
   ];
-
+  
   document.getElementById("encounter").innerHTML = setupList[rollD20()] + " And you come across " + monsterList[rollD20()] + ", who " + rewardList[rollD20()];
 }
 
@@ -356,8 +356,7 @@ function generateNpc() {
   if (r < 10) {
     race = raceList[r];
   }
-
-  document.getElementById("npc").innerHTML = "You meet " + adjectiveList[rollD20()] + gender + race + " who " + traitList[rollD20()];
+  document.getElementById("npc").innerHTML = "You meet  " + adjectiveList[Math.floor(Math.random() * adjectiveList.length)] + gender + race + " who " + traitList[Math.floor(Math.random() * traitList.length)];
 }
 
 function travel(period) {
@@ -422,7 +421,7 @@ function generateTravelEvent(){
     "Survival check DC " + (Math.ceil(Math.random() * 10) + 10 ) +  " finds large monstrous tracks. If followed they appear to... shrink over time?... And lead to a RANDOM NPC walking down the road, who is friendly and happy to see you.",
     "The trail just ends! Survival DC " + (Math.ceil(Math.random() * 10) + 3 ) +  " to find it again. On fail you get lost. (reroll for " + (days2travel + 1) + " days)",
     "You think you know a shortcut nearby " + (Math.ceil(Math.random() * 10) + 3 ) +  " to find it. (reroll for " + Math.max((days2travel -1), 0) + " days)",
-    "You meet group of travelers are on a pilgrimage. They will head in the same direction as you for " + Math.min(days2travel, Math.ceil(Math.random() * 4)) + " days. They offer food and shelter on the road in excange for protection.",
+    "You meet group of travelers on a pilgrimage. They will head in the same direction as you for " + Math.min(days2travel, Math.ceil(Math.random() * 4)) + " days. They offer food and shelter on the road in excange for protection.",
     "You meet caravan of traveling merchants. They will head in the same direction as you for " + Math.min(days2travel, Math.ceil(Math.random() * 4)) + " days. They offer food and shelter on the road in excange for protection."
   ];
 
