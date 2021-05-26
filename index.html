@@ -29,8 +29,8 @@
         </div>
 
         <div class="blob halfR">
-          <h1>Random Travel Generator - Days traveled:
-          <select name="cars" id="cars" style="font-size: x-large;">
+          <h1>Random Travel Generator. Days traveled:
+          <select name="days" id="days" style="font-size: x-large;" onchange="travel(this.value)">
             <option value="0">0</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -43,8 +43,8 @@
             <option value="9">9</option>
             <option value="10">10</option>
           </select></h1>
-          <p id="encounter">Select the number of days to travel.</p>
-          <button type="button" onclick="generateEncounter()">Next day!</button>
+          <p id="travelLog">Select the number of days to travel.</p>
+          <button type="button" onclick="generateDay()">Next day!</button>
         </div>
 
         <div class="blob full">
@@ -52,7 +52,7 @@
           <p id="npc">Click the button to generate a person.</p>
           <button type="button" onclick="generateNpc()">Roll!</button>
         </div>
-        <p class="footer">version 0.1.15</p>
+        <p class="footer">version 0.2.0</p>
     </div>
     
   </body>

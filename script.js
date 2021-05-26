@@ -1,4 +1,6 @@
 
+var days2travel = 0;
+
 
 // lowest is 0, highest is 19                                                  
 function rollD20() {
@@ -356,4 +358,37 @@ function generateNpc() {
   }
 
   document.getElementById("npc").innerHTML = "You meet " + adjectiveList[rollD20()] + gender + race + " who " + traitList[rollD20()];
+}
+
+function travel(period) {
+  days2travel = period
+  document.getElementById("travelLog").innerHTML = "You set out on your " + days2travel + " day journey! Click the \"Next Day!\" button to begin."
+}
+
+function generateDay() {
+  if (days2travel == 0) {
+    document.getElementById("travelLog").innerHTML = "You arrive! Your journey has finaly come to an end."
+  } 
+  else if (days2travel == 1){
+    document.getElementById("travelLog").innerHTML = "Last day of travel: " + generateTravelEvent()
+    days2travel--;
+  } else {
+    document.getElementById("travelLog").innerHTML = days2travel + " days left: " + generateTravelEvent()
+    days2travel--;
+  }
+}
+
+function generateTravelEvent(){
+
+  var t = rollD20();
+  // 20% chance of random encounter.
+  if (t < 6){
+    return "you have a RANDOM ENCOUNTER! (use generator)"
+  }
+  // 20% chance of nothing happening.
+  if (t > 14){
+    return "uneventfull day of travel."
+  }
+  // otherwise pick one from the random list.
+  return "lol idk stuff"
 }
