@@ -391,9 +391,9 @@ function generateTravelEvent(){
   }
   // otherwise pick one from the random list.
   var travelEventList = [
-    "A dog wanders into camp. It wants to eat 1 ration and cuddle (give insipration) but disturb your sleep (roll wis save or disturb long rest/mediation)",
+    "A cute tame animal wanders into camp. It wants to eat 1 ration and cuddle (give insipration) but disturb your sleep (roll wis save DC " + (Math.floor(Math.random() * 10) + 10 ) +  " or disturb long rest/mediation). It is gone the next day.",
     "There is unexpected bad weather. Make a survival DC 12 to find shelter for the night or be exhausted.",
-    "A band of traveling bards are heading in the same direction for a day. They entertain you on the road and you all get inspiration.",
+    "A group of traveling bards are heading in the same direction for a day. They entertain you on the road and you all get inspiration.",
     "You sleep under the constellation of the mage. Magic users wake up with inspiration.",
     "You sleep under the constellation of the warior. Mele players wake up with inspiration.",
     "A small creature has set up a merchant stall in the middle of nowhere. It trades treasures it as found (in nearby ruin) for food or fun trinkets.",
@@ -422,6 +422,8 @@ function generateTravelEvent(){
     "Survival check DC " + (Math.floor(Math.random() * 10) + 10 ) +  " finds large monstrous tracks. If followed they appear to... shrink over time?... And lead to a RANDOM NPC walking down the road, who is friendly and happy to see you.",
     "The trail just ends! Survival DC " + (Math.floor(Math.random() * 10) + 3 ) +  " to find it again. On fail you get lost. (reroll for " + (days2travel + 1) + " days)",
     "You think you know a shortcut nearby " + (Math.floor(Math.random() * 10) + 3 ) +  " to find it. (reroll for " + Math.max((days2travel -1), 0) + " days)",
+    "You meet group of travelers are on a pilgrimage. They will head in the same direction as you for " + Math.min(days2travel, Math.floor(Math.random() * 4)) + " days. They offer food and shelter on the road in excange for protection.",
+    "You meet caravan of traveling merchants. They will head in the same direction as you for " + Math.min(days2travel, Math.floor(Math.random() * 4)) + " days. They offer food and shelter on the road in excange for protection."
   ];
 
   return travelEventList[Math.floor(Math.random() * travelEventList.length)];
