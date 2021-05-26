@@ -337,7 +337,7 @@ function generateNpc() {
       gender = "female ";
   }
 
-  // Race - 50% chance of human. 10% chance of dwarf. 10% chance of elf. 5% everything else.
+  
   var raceList = [
     "<a href='https://www.fantasynamegenerators.com/dnd-gnome-names.php' target='_blank'>gnome</a> ",
     "<a href='https://www.fantasynamegenerators.com/dnd-halfling-names.php' target='_blank'>halfling</a> ",
@@ -351,10 +351,11 @@ function generateNpc() {
     "??? "
   ];
 
+  // Race - 50% chance of human. 10% chance of dwarf. 10% chance of elf. 5% everything else.
   var race = "<a href='https://www.fantasynamegenerators.com/dnd-human-names.php' target='_blank'>human</a> ";
   var r = rollD20();
   if (r < 10) {
-    race = raceList[r];
+    race =  raceList[Math.floor(Math.random() * raceList.length)];
   }
   document.getElementById("npc").innerHTML = "You meet  " + adjectiveList[Math.floor(Math.random() * adjectiveList.length)] + gender + race + " who " + traitList[Math.floor(Math.random() * traitList.length)];
 }
