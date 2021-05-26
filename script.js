@@ -397,7 +397,7 @@ function generateTravelEvent(){
     "You sleep under the constellation of the mage. Magic users wake up with inspiration.",
     "You sleep under the constellation of the warior. Mele players wake up with inspiration.",
     "A small creature has set up a merchant stall in the middle of nowhere. It trades treasures it as found (in nearby ruin) for food or fun trinkets.",
-    "The player taking lead makes a survival check DC " + (Math.floor(Math.random() * 10) + 10 ) +  ". On sucess find shortcut. (reroll for " + (days2travel -1) + " days)",
+    "The player taking lead makes a survival check DC " + (Math.floor(Math.random() * 10) + 10 ) +  ". On sucess find shortcut. (reroll for " + Math.max((days2travel -1), 0) + " days)",
     "The player taking lead makes a survival check DC " + (Math.floor(Math.random() * 10) + 10 ) +  ". On fail you get lost. (reroll for " + (days2travel + 2) + " days)",
     "The food you ate today has gone bad. Con save DC" + (Math.floor(Math.random() * 10) + 10 ) +  " or spend the night in agony and wake up exhausted.",
     "A god gives a vision to one of the players when they sleep. They wake up with inspiration.",
@@ -413,10 +413,15 @@ function generateTravelEvent(){
     "A sign made of junk poins into the wilderness. It reads \"DIS WAE FOR DAT GOOD GOOD.\"",
     "An animal jumps across your path. Perception check DC " + (Math.floor(Math.random() * 10) + 10 ) + " reveals it carries a magic necklace.",
     "Your path has become ubstructed by resent bad weather. It takes 2 more days of traveling trough difficult terrain. (reroll for " + (days2travel + 1) + " days).",
-    "Your knowledge of this area appears to be outdated. The journey is easier than expected! (reroll for " + (days2travel - 2) + " days).",
+    "Your knowledge of this area appears to be outdated. The journey is easier than expected! (reroll for " + Math.max((days2travel -2), 0) + " days).",
+    "Your knowledge of this area appears to be outdated. The journey is harder than expected! (reroll for " + (days2travel +2) + " days).",
     "You find mushrooms! Nature check DC " + (Math.floor(Math.random() * 10) + 10 ) + " reveal they are poisonus. If eaten you loose 1 day of travel to aggony and stomach ache. (reroll for " + (days2travel + 1) + " days)",
-    "The full moon makes traveling in darkness easy. You make extra progress on your journey. (reroll for " + (days2travel -1) + " days) OR cover regular distance in half the time (you loose one level of exhaustion).",
-    "Freak weather conditions make travel almost impossible. Hunker down for a day (reroll for " + (days2travel -1) + " days) OR brave the condtions with a survival check DC " + (Math.floor(Math.random() * 10) + 10 ) +  "with disadvantage."
+    "The full moon makes traveling in darkness easy. You make extra progress on your journey. (reroll for " + Math.max((days2travel -1), 0) + " days) OR cover regular distance in half the time (you loose one level of exhaustion).",
+    "Freak weather conditions make travel almost impossible. Hunker down for a day (reroll for " + (days2travel + 1) + " days) OR brave the condtions with a survival check DC " + (Math.floor(Math.random() * 10) + 10 ) +  "with disadvantage.",
+    "A traveler lets you know of a nearby shortcut. It is not on most maps because it is dangerous. If taken it cuts down travel time (reroll for " + (days2travel + 1) + " days) BUT you will face a RANDOM ENCOUNTER.",
+    "Survival check DC " + (Math.floor(Math.random() * 10) + 10 ) +  " finds large monstrous tracks. If followed they appear to... shrink over time?... And lead to a RANDOM NPC walking down the road, who is friendly and happy to see you.",
+    "The trail just ends! Survival DC " + (Math.floor(Math.random() * 10) + 3 ) +  " to find it again. On fail you get lost. (reroll for " + (days2travel + 1) + " days)",
+    "You think you know a shortcut nearby " + (Math.floor(Math.random() * 10) + 3 ) +  " to find it. (reroll for " + Math.max((days2travel -1), 0) + " days)",
   ];
 
   return travelEventList[Math.floor(Math.random() * travelEventList.length)];
