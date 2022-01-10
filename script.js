@@ -140,7 +140,8 @@ function generateHostileEncounter() {
     "You see an ambush before they see you.",
     "There is a trap in your path.",
     "You are caught completely by surprise.",
-    "BOOM MOTHERFUCKER!!!"
+    "BOOM MOTHERFUCKER!!!",
+    "You see black smoke rising from a nearby hamlet."
   ];
 
   // The monster
@@ -252,7 +253,7 @@ function generateFriendlyEncounter() {
     "has a common magic item for sale.",
     "gives you inspiration.",
     "sells weapons and ammunition.",
-    "",
+    "... nothing.",
     "a nice suit of armor or shield.",
     "a healing potion.",
     "the favor of the locals.",
@@ -423,7 +424,10 @@ function generateTravelEvent(){
     "The trail just ends! Survival DC " + (Math.ceil(Math.random() * 10) + 3 ) +  " to find it again. On fail you get lost. (reroll for " + (days2travel + 1) + " days)",
     "You think you know a shortcut nearby " + (Math.ceil(Math.random() * 10) + 3 ) +  " to find it. (reroll for " + Math.max((days2travel -1), 0) + " days)",
     "You meet group of travelers on a pilgrimage. They will head in the same direction as you for " + Math.min(days2travel, Math.ceil(Math.random() * 4)) + " days. They offer food and shelter on the road in excange for protection.",
-    "You meet caravan of traveling merchants. They will head in the same direction as you for " + Math.min(days2travel, Math.ceil(Math.random() * 4)) + " days. They offer food and shelter on the road in excange for protection."
+    "You meet caravan of traveling merchants. They will head in the same direction as you for " + Math.min(days2travel, Math.ceil(Math.random() * 4)) + " days. They offer food and shelter on the road in excange for protection.",
+    "You find the skeleton of an adventurer, Investigation DC " + (Math.ceil(Math.random() * 10) + 10 ) +  " reveals a treasure that leads to a dungeon " + Math.min(days2travel, Math.ceil(Math.random() * 4)) + " days away.",
+    "You travel along a well known path, yet you come across an entrance to a dungeon none of you have seen before",
+    "A group of vampires disguised as priests beckons you to approach their cave."
   ];
 
   return travelEventList[Math.ceil(Math.random() * travelEventList.length)];
