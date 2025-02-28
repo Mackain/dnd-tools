@@ -1,5 +1,24 @@
+
+// Declaration
+class Room {
+    constructor(directions, tableIndex) {
+        // a string containing the cardinal direction that the room connects to.
+        this.directions = directions;
+        // the number representing the room description
+        this.tableIndex = tableIndex;
+    }
+  }
+
+// TODO implement this very important feature!
+// without it dungeons can become just a long corridor without doors ending in a dead end...
+var doorsLeftUnopened = 0
+
+var facing = "N"
+
+var playerLocation = null;
+
 var dungeon = [
-    "1","2"," "," "," "," "," "," "," ","10",
+    " "," "," "," "," "," "," "," "," "," ",
     " "," "," "," "," "," "," "," "," "," ",
     " "," "," "," "," "," "," "," "," "," ",
     " "," "," "," "," "," "," "," "," "," ",
@@ -11,7 +30,464 @@ var dungeon = [
     " "," "," "," "," "," "," "," "," "," "
 ];
 
-function printDungeon() {
+
+function exploreDungeon(index){
+
+    // have we been here before?!?
+    if(dungeon[index] != " ") {
+        console.log("WE HAVE BEEN HERE BEFORE!")
+        // aw shiet.. time to do some heavy calculations...
+
+        // TODO no need to generate new room... but we need to spin!
+        // rotate facing unitl it matches the paths available in the room.
+        // then just print the room again, and pretend like nothing happened.
+        return
+    }
+
+
+    output = "";
+    blockedPaths = "";
+    connectedPaths = "";
+
+    // TODO calcualte subset of numbers that needs to be rolled on
+    // if for example there is a different toom that needs to connect to this room from elsewhere.
+    //limitedNumbers = calculateLimitedNumbers(index);
+
+    blockedNumbers = calculateBlockedNumbers(index);
+    console.log("blocked numbers: " + blockedNumbers);
+
+
+    // ROLL ON RANDOM INSTRUCTION TABLE A
+    var d4 = Math.ceil(Math.random() * 4);
+
+    var d100 = rollRoom(blockedNumbers);
+
+    var dir = getConnectingPaths(d100) 
+
+    console.log ("possible paths: " + dir)
+
+    //var newRoom = new Room(facing, d100);
+    //dungeon[index] = newRoom;
+    setRoom(index, d100);
+
+    var roomDescription = getDescription(d100);
+    console.log(roomDescription);
+    output += roomDescription;
+
+
+    if (d4 == 1) {
+        console.log("RANDOM FLAIR")
+        console.log(getRandomFlair());
+    }
+
+    if (d4 == 4) {
+        console.log("RANDOM ENCOUNTER")
+        console.log(getRandomEncounter());
+    }
+
+    printDungeon(output)
+
+}
+
+
+
+function rollRoom(blockedNumbers) {
+    let randomNumber;
+    do {
+      randomNumber = Math.ceil(Math.random() * 100);
+    } while (blockedNumbers.includes(randomNumber));
+    return randomNumber;
+  }
+
+
+function startDungeonCrawl() {
+    playerLocation = setRandomStartingLocation();
+    exploreDungeon(playerLocation);
+}
+
+
+function setRandomStartingLocation() {
+    // can spawn at any point in the dungeon... for now.
+    return Math.floor(Math.random() * 100);
+}
+
+
+
+function exploreAhead() {
+    // no need for checking where you can go. that has already been done!
+    if(facing == "N" && dungeon[playerLocation].directions.includes("N")) {
+        playerLocation -= 10;
+    } else if (facing == "E" && dungeon[playerLocation].directions.includes("E")) {
+        playerLocation++;
+    } else if (facing == "S" && dungeon[playerLocation].directions.includes("S")) {
+        playerLocation += 10;
+    } else if (facing == "W" && dungeon[playerLocation].directions.includes("W")) {
+        playerLocation--;
+    } else {
+        console.log("cannot go straight ahead!")
+        return
+    }
+    exploreDungeon(playerLocation);
+}
+
+function exploreRight() {
+    // no need for checking where you can go. that has already been done!
+    if(facing == "N" && dungeon[playerLocation].directions.includes("E")) {
+        facing = "E"
+        playerLocation++;
+    } else if (facing == "E" && dungeon[playerLocation].directions.includes("S")) {
+        facing = "S"
+        playerLocation += 10;
+    } else if (facing == "S" && dungeon[playerLocation].directions.includes("W")) {
+        facing = "W"
+        playerLocation--;
+    } else if (facing == "W" && dungeon[playerLocation].directions.includes("N")) {
+        facing = "N"
+        playerLocation -= 10;
+    } else {
+        console.log("cannot go right!")
+        return
+    }
+    exploreDungeon(playerLocation);
+}
+
+function goBack() {
+    // this is a weird one... not sure how this will work in the future...
+    // TODO is this broken now?
+    if(facing == "N" && dungeon[playerLocation].directions.includes("S")) {
+        facing = "S"
+        playerLocation += 10;
+    } else if (facing == "E" && dungeon[playerLocation].directions.includes("W")) {
+        facing = "W"
+        playerLocation--;
+    } else if (facing == "S" && dungeon[playerLocation].directions.includes("N")) {
+        facing = "N"
+        playerLocation -= 10;
+    } else if (facing == "W" && dungeon[playerLocation].directions.includes("E")) {
+        facing = "E"
+        playerLocation++;
+    } else {
+        console.log("cannot go back!")
+        return
+    }
+    exploreDungeon(playerLocation);
+}
+
+function exploreLeft() {
+    // no need for checking where you can go. that has already been done!
+    if(facing == "N" && dungeon[playerLocation].directions.includes("W")) {
+        facing = "W"
+        playerLocation--;
+    } else if (facing == "E" && dungeon[playerLocation].directions.includes("N")) {
+        facing = "N"
+        playerLocation -= 10;
+    } else if (facing == "S" && dungeon[playerLocation].directions.includes("E")) {
+        facing = "E"
+        playerLocation++;
+    } else if (facing == "W" && dungeon[playerLocation].directions.includes("S")) {
+        facing = "S"
+        playerLocation += 10;
+    } else {
+        console.log("cannot go left!")
+        return
+    }
+    exploreDungeon(playerLocation);
+}
+
+
+
+// takes a die roll for the Random dungeon table and generates a room 
+// based on facing direction and places it in the dungeon on set index.
+function setRoom(index, dieRoll) {
+
+    // create a room
+    roomPaths = getConnectingPaths(dieRoll)
+
+    room = new Room(roomPaths, dieRoll) 
+
+    // stick it in the dungeon
+    dungeon[index] = room;
+}
+
+
+
+// takes the index of an unexplored room and based in the facing variable returns
+// directions (ARBL) that cannot be explored from that tile
+function getBlockedPaths(index) {
+    var blockedCardinalPaths = "";
+
+
+    // check if edge of map
+    var roomNorthIndex = index-10;
+    if (roomNorthIndex < 0) {
+        blockedCardinalPaths += "N"
+    }
+
+    var roomSouthIndex = index+10;
+    if (roomSouthIndex > 99) {
+        blockedCardinalPaths += "S"
+    }
+
+    var roomEastIndex = index+1;
+    if (roomEastIndex == 10 || roomEastIndex == 20 || roomEastIndex == 30|| roomEastIndex == 40|| roomEastIndex == 50|| roomEastIndex == 60|| roomEastIndex == 70|| roomEastIndex == 80|| roomEastIndex == 80|| roomEastIndex == 90 || roomEastIndex == 100 ) {
+        blockedCardinalPaths += "E"
+    }
+
+    var roomWestIndex = index-1;
+    if (roomWestIndex == -1 || roomWestIndex == 9 || roomWestIndex == 19|| roomWestIndex == 29|| roomWestIndex == 39|| roomWestIndex == 49|| roomWestIndex == 59|| roomWestIndex == 69|| roomWestIndex == 79|| roomWestIndex == 89 ) {
+        blockedCardinalPaths += "W"
+    }
+
+
+    // check the neighbouring room is explored BUT does not lead back to this room. 
+    if (!blockedCardinalPaths.includes("N") && (dungeon[roomNorthIndex] != null) && (dungeon[roomNorthIndex] != " ") )  {
+        if(!dungeon[roomNorthIndex].directions.includes("S")) {
+            console.log("room north of here is explored but has no door leading south!")
+            blockedCardinalPaths += "N";
+        }
+    }
+    if (!blockedCardinalPaths.includes("E") && (dungeon[roomEastIndex] != null) && (dungeon[roomEastIndex] != " ") )  {
+        console.log("pipe" + dungeon[roomEastIndex])
+        if(!dungeon[roomEastIndex].directions.includes("W")) {
+            console.log("room east of here is explored but has no door leading west!")
+            blockedCardinalPaths += "E";
+        }
+    }
+    if (!blockedCardinalPaths.includes("S") && (dungeon[roomSouthIndex] != null) && (dungeon[roomSouthIndex] != " ") )  {
+        if(!dungeon[roomSouthIndex].directions.includes("N")) {
+            console.log("room south of here is explored but has no door leading north!")
+            blockedCardinalPaths += "S";
+        }
+    }
+    if (!blockedCardinalPaths.includes("W") && (dungeon[roomWestIndex] != null) && (dungeon[roomWestIndex] != " ") )  {
+        if(!dungeon[roomWestIndex].directions.includes("E")) {
+            console.log("room west of here is explored but has no door leading east!")
+            blockedCardinalPaths += "W";
+        }
+    }
+
+    console.log("cannot go " + blockedCardinalPaths);
+
+
+    // now translate cardinal paths to directional paths.
+    var blockedRelativePaths = "";
+
+    if (facing == "N") {
+        if(blockedCardinalPaths.includes("N")) {
+            blockedRelativePaths+="A";
+        }
+        if(blockedCardinalPaths.includes("E")) {
+            blockedRelativePaths+="R";
+        }
+        if(blockedCardinalPaths.includes("S")) {
+            blockedRelativePaths+="B";
+        }
+        if(blockedCardinalPaths.includes("W")) {
+            blockedRelativePaths+="L";
+        }
+    } else if (facing == "E") {
+        if(blockedCardinalPaths.includes("N")) {
+            blockedRelativePaths+="L";
+        }
+        if(blockedCardinalPaths.includes("E")) {
+            blockedRelativePaths+="A";
+        }
+        if(blockedCardinalPaths.includes("S")) {
+            blockedRelativePaths+="R";
+        }
+        if(blockedCardinalPaths.includes("W")) {
+            blockedRelativePaths+="B";
+        }
+    } else if (facing == "S") {
+        if(blockedCardinalPaths.includes("N")) {
+            blockedRelativePaths+="B";
+        }
+        if(blockedCardinalPaths.includes("E")) {
+            blockedRelativePaths+="L";
+        }
+        if(blockedCardinalPaths.includes("S")) {
+            blockedRelativePaths+="A";
+        }
+        if(blockedCardinalPaths.includes("W")) {
+            blockedRelativePaths+="R";
+        }
+    } else if (facing == "W") {
+        if(blockedCardinalPaths.includes("N")) {
+            blockedRelativePaths+="R";
+        }
+        if(blockedCardinalPaths.includes("E")) {
+            blockedRelativePaths+="B";
+        }
+        if(blockedCardinalPaths.includes("S")) {
+            blockedRelativePaths+="L";
+        }
+        if(blockedCardinalPaths.includes("W")) {
+            blockedRelativePaths+="A";
+        }
+    }
+
+    console.log("cannot go " + blockedRelativePaths);
+
+    return blockedRelativePaths;
+
+
+}
+
+
+
+
+
+
+// returns a sting containing the directions that this room is connected to (NESW)
+// need to know this if you are generating a new room.
+function getConnectedPathsForUnexploredRoom(index) {
+
+    var connectedDirections = "";
+
+    var roomNorthIndex = index-10;
+    if (roomNorthIndex < 0) {
+        roomNorthIndex = null
+    }
+
+    var roomSouthIndex = index+10;
+    if (roomSouthIndex > 99) {
+        roomSouthIndex = null
+    }
+
+    var roomEastIndex = index+1;
+    if (roomEastIndex == 10 || roomEastIndex == 20 || roomEastIndex == 30|| roomEastIndex == 40|| roomEastIndex == 50|| roomEastIndex == 60|| roomEastIndex == 70|| roomEastIndex == 80|| roomEastIndex == 80|| roomEastIndex == 90 || roomEastIndex == 100 ) {
+        roomEastIndex = null
+    }
+
+    var roomWestIndex = index-1;
+    if (roomWestIndex == -1 || roomWestIndex == 9 || roomWestIndex == 19|| roomWestIndex == 29|| roomWestIndex == 39|| roomWestIndex == 49|| roomWestIndex == 59|| roomWestIndex == 69|| roomWestIndex == 79|| roomWestIndex == 89 ) {
+        roomWestIndex = null
+    }
+
+    console.log("room to the north is index " + roomNorthIndex)
+    console.log("room to the east is index " + roomEastIndex)
+    console.log("room to the south is index " + roomSouthIndex)
+    console.log("room to the west is index " + roomWestIndex)
+
+
+    if (roomNorthIndex != null) {
+        var roomNorth = dungeon[roomNorthIndex];
+        if (roomNorth == " ") {
+            console.log("Room north is unexplored.")
+        } else {
+            console.log("Room north is explored.")
+            if (dungeon[roomNorthIndex].directions.includes("S")){
+                console.log("room north leads here!")
+                connectedDirections += "N"
+            }
+        }
+    }
+
+    if (roomEastIndex != null) {
+        var roomEast = dungeon[roomEastIndex];
+        if (roomEast == " ") {
+            console.log("Room east is unexplored.")
+        } else {
+            console.log("Room east is explored.")
+            if (dungeon[roomEastIndex].directions.includes("W")){
+                console.log("room east leads here!")
+                connectedDirections += "E"
+            }
+        }
+    }
+
+    if (roomSouthIndex != null) {
+        var roomSouth = dungeon[roomSouthIndex];
+        if (roomSouth == " ") {
+            console.log("Room south is unexplored.")
+        } else {
+            console.log("Room south is explored.")
+            if (dungeon[roomSouthIndex].directions.includes("N")){
+                console.log("room south leads here!")
+                connectedDirections += "S"
+            }
+        }
+    }
+
+    if (roomWestIndex != null) {
+        var roomWest = dungeon[roomWestIndex];
+        if (roomWest == " ") {
+            console.log("Room west is unexplored.")
+        } else {
+            console.log("Room west is explored.")
+            if (dungeon[roomWestIndex].directions.includes("E")){
+                console.log("room west leads here!")
+                connectedDirections += "W"
+            }
+        }
+    }
+    
+
+}
+
+// returns an array of all the entries in the random dungeon table that cannot
+// be used based on the blocked relative paths (ARBL)
+function calculateBlockedNumbers(index) {
+
+    blockedPaths = getBlockedPaths(index);
+    var blockedArray = [];
+
+
+    // if this is the firs room to be explored (the dungeon is empty) then block dead ends from being generated.
+    if (!dungeon.some(value => value !== " ")) {
+        for (let i = 1; i <= 30; i++) {
+            blockedArray.push(i);
+        }
+    }
+
+    // cant go ahead
+    if (blockedPaths.includes("A")) {
+        // block 41-50, 61-80, 91-100
+        for (let i = 41; i <= 50; i++) {
+            blockedArray.push(i);
+        }
+        for (let i = 61; i <= 80; i++) {
+            blockedArray.push(i);
+        }
+        for (let i = 91; i <= 100; i++) {
+            blockedArray.push(i);
+        }
+    }
+
+    // cant go right
+    if (blockedPaths.includes("R")) {
+        // block 51-60, 71-100
+        for (let i = 51; i <= 60; i++) {
+            blockedArray.push(i);
+        }
+        for (let i = 71; i <= 100; i++) {
+            blockedArray.push(i);
+        }
+    }
+
+    // cant go back
+    // wait... you can always go back...
+
+    // cant go left
+    if (blockedPaths.includes("R")) {
+        // block 31-40, 61-70, 81-100
+        for (let i = 31; i <= 40; i++) {
+            blockedArray.push(i);
+        }
+        for (let i = 61; i <= 70; i++) {
+            blockedArray.push(i);
+        }
+        for (let i = 81; i <= 100; i++) {
+            blockedArray.push(i);
+        }
+    }
+
+    return blockedArray;
+
+}
+
+
+function printDungeon(output) {
     for (let i = 0; i < 10; i ++) {
         var dungeonRow = ""
         for (let j = 0; j < 10; j ++) {
@@ -19,12 +495,182 @@ function printDungeon() {
             if (dungeon[(i*10)+j] == " ") {
                 dungeonRow += "⯀"
             } else {
-                dungeonRow += "[" + dungeon[(i*10)+j] + "]"
+                if (playerLocation == (i*10)+j) {
+                    dungeonRow += "🧙‍♂️"
+                } else {
+                    dungeonRow += "[]"
+                }
+                
             }
         }
         console.log(i +":"+ dungeonRow)
 
     }
+
+    console.log("facing: " + facing);
+
+    console.log("playerLocation: " + playerLocation)
+
+    console.log("-----------------------------------");
+    document.getElementById("text-area").value = output;
+
+
+    // disable all buttons by default and only enable them if walking is allowed.
+    document.getElementById("btnUp").disabled = true;
+    document.getElementById("btnBack").disabled = true;
+    document.getElementById("btnLeft").disabled = true;
+    document.getElementById("btnRight").disabled = true;
+
+    // disable the buttons of the direction that cannot be explored.
+    if (facing == "N"){
+        if (dungeon[playerLocation].directions.includes("N")) {
+            document.getElementById("btnUp").disabled = false;
+        }
+        if (dungeon[playerLocation].directions.includes("E")) {
+            document.getElementById("btnRight").disabled = false;
+        }
+        if (dungeon[playerLocation].directions.includes("S")) {
+            document.getElementById("btnBack").disabled = false;
+        }
+        if (dungeon[playerLocation].directions.includes("W")) {
+            document.getElementById("btnLeft").disabled = false;
+        }
+    } if (facing == "E") {
+        if (dungeon[playerLocation].directions.includes("N")) {
+            document.getElementById("btnLeft").disabled = false;
+        }
+        if (dungeon[playerLocation].directions.includes("E")) {
+            document.getElementById("btnUp").disabled = false;
+        }
+        if (dungeon[playerLocation].directions.includes("S")) {
+            document.getElementById("btnRight").disabled = false;
+        }
+        if (dungeon[playerLocation].directions.includes("W")) {
+            document.getElementById("btnBack").disabled = false;
+        }
+    } if (facing == "S") {
+        if (dungeon[playerLocation].directions.includes("N")) {
+            document.getElementById("btnBack").disabled = false;
+        }
+        if (dungeon[playerLocation].directions.includes("E")) {
+            document.getElementById("btnLeft").disabled = false;
+        }
+        if (dungeon[playerLocation].directions.includes("S")) {
+            document.getElementById("btnUp").disabled = false;
+        }
+        if (dungeon[playerLocation].directions.includes("W")) {
+            document.getElementById("btnRight").disabled = false;
+        }
+    } if (facing == "W") {
+        if (dungeon[playerLocation].directions.includes("N")) {
+            document.getElementById("btnRight").disabled = false;
+        }
+        if (dungeon[playerLocation].directions.includes("E")) {
+            document.getElementById("btnBack").disabled = false;
+        }
+        if (dungeon[playerLocation].directions.includes("S")) {
+            document.getElementById("btnLeft").disabled = false;
+        }
+        if (dungeon[playerLocation].directions.includes("W")) {
+            document.getElementById("btnUp").disabled = false;
+        }
+    }
+    
+
+}
+
+// takes the number corresponding to the Random dungeon table 
+// and calculates the connecting paths ARBL (ahead, right, back, left).
+function getConnectingPaths(number) {
+
+    // the connecting paths ARBL (ahead, right, back, left).
+    paths = "";
+
+    // all rooms connect back... even dead ends EXCEPT THE FIRST ROOM!!!!
+    if (dungeon.some(value => value !== " ")) {
+        paths += "B";
+    }
+    
+
+    // continues left (31-40, 61-70, 81-100)
+    if ((number > 30 && number < 41) || (number > 60 && number < 71) || (number > 80) ) {
+        console.log("continues left")
+        paths += "L";
+    }
+
+    // continues ahead 
+    if ((number > 40 && number < 51) || (number > 60 && number < 81) || (number > 90)) {
+        console.log("continues ahead")
+        paths += "A";
+    }
+
+    // continues right 
+    if ((number > 50 && number < 61) || (number > 70)) {
+        console.log("continues right")
+        paths += "R";
+    }
+
+
+
+    // now translate paths to cardinal directions
+    var cardinalPaths = "";
+
+    if (facing == "N") {
+        if(paths.includes("A")) {
+            cardinalPaths+="N";
+        }
+        if(paths.includes("R")) {
+            cardinalPaths+="E";
+        }
+        if(paths.includes("B")) {
+            cardinalPaths+="S";
+        }
+        if(paths.includes("L")) {
+            cardinalPaths+="W";
+        }
+    } else if (facing == "E") {
+        if(paths.includes("A")) {
+            cardinalPaths+="E";
+        }
+        if(paths.includes("R")) {
+            cardinalPaths+="R";
+        }
+        if(paths.includes("B")) {
+            cardinalPaths+="W";
+        }
+        if(paths.includes("L")) {
+            cardinalPaths+="N";
+        }
+    } else if (facing == "S") {
+        if(paths.includes("A")) {
+            cardinalPaths+="S";
+        }
+        if(paths.includes("R")) {
+            cardinalPaths+="W";
+        }
+        if(paths.includes("B")) {
+            cardinalPaths+="N";
+        }
+        if(paths.includes("L")) {
+            cardinalPaths+="E";
+        }
+    } else if (facing == "W") {
+        if(paths.includes("A")) {
+            cardinalPaths+="W";
+        }
+        if(paths.includes("R")) {
+            cardinalPaths+="N";
+        }
+        if(paths.includes("B")) {
+            cardinalPaths+="E";
+        }
+        if(paths.includes("L")) {
+            cardinalPaths+="S";
+        }
+    }
+
+    return cardinalPaths;
+
 }
 
 
@@ -45,6 +691,7 @@ function getDescription(number) {
         // Dead end (good)
         11: "A battle took place here recently. Bodies lay scattered around the room, and judging from the smell they died just a few days ago.\n\n[ROLL ON RANDOM ENCOUNTERS TABLE] fought against [ROLL ON RANDOM ENCOUNTERS TABLE], and it looks like there were no survivors. If they choose to loot the bodies they will find:\n[ROLL ON RANDOM MUNDANE LOOT TABLE 6 TIMES],\n[ROLL ON THE RANDOM TREASURE TABLE ONCE]",
         12: "This corridor seems to have caved in not too long ago. As you inspect the rubble to determine if it would be possible to get to the other side, you see something shimmer underneath the stones. \nA cold, dead hand sticks out from underneath a large boulder. It would seem that an adventurer met their untimely end here not long ago. In their hand, you find a sword with a golden hilt. Its worth is 1d4 x100 gold pieces. (It is not magical… unless you want it to be...)",
+        // TODO fix this... in the book too...
         13: "[ROLL ON THE RANDOM PUZZLE TABLE ONCE]\n\nWhen all party members solve the puzzle, a secret compartment opens in the wall opposite the door. Inside, they will find a small chest.\n[ROLL ON THE RANDOM TREASURE TABLE ONCE]",
         14: "As you open the door to this room, its weight strikes you by surprise—the backside of this door is heavily reinforced with thick steel, and the walls are thick. This seems to have been some sort of vault or treasury, but its contents have been looted long ago.\n\nHowever, careful investigation of the wall finds a hidden mechanism that opens a door to a secret compartment where a chest remains, containing 1d4x100 gold + [ROLL ON THE RANDOM TREASURE TABLE ONCE].\n\nIf the party came here looking for a specific treasure: make it clear to them that this room is NOT their target, and that the real treasure probably still lies somewhere within the dungeon.",
         15: "You enter a small and unremarkable room; it is well protected and would make for a good place to rest a while. On closer inspection, you find a loose stone in the floor hiding a secret!\n[ROLL ON RANDOM MUNDANE LOOT TABLE 2 TIMES]",
@@ -145,29 +792,38 @@ function getDescription(number) {
     return descriptions[number] || "Invalid number. Please enter a number between 1 and 100.";
 }
 
+
+function getRandomEncounter() {
+    return getEncounter(Math.ceil(Math.random() * 20))
+}
+
 function getEncounter(number) {
     const encounter = {
         // Dead end (neutral)
-        1: "1d10 Kobolds",
-        2: "1d8 Goblins",
-        3: "1d4 Giant spiders",
-        4: "1d6 Bandits",
+        1: Math.ceil(Math.random() * 10) + " Kobolds",
+        2: Math.ceil(Math.random() * 8) + " Goblins",
+        3: Math.ceil(Math.random() * 4) + " Giant spiders",
+        4: Math.ceil(Math.random() * 6) + " Bandits",
         5: "A bandit captain",
-        6: "1d4 Berserkers",
-        7: "1d4 Cultists",
-        8: "1d4 Swarms of rats/insects/snakes",
-        9: "1d8 Gnolls",
-        10: "1d4 Giant constrictor snakes",
-        11: "1d6 Zombies",
+        6: Math.ceil(Math.random() * 4) + " Berserkers",
+        7: Math.ceil(Math.random() * 4) + " Cultists",
+        8: Math.ceil(Math.random() * 4) + " Swarms of rats/insects/snakes",
+        9: Math.ceil(Math.random() * 8) + " Gnolls",
+        10: Math.ceil(Math.random() * 4) + " Giant constrictor snakes",
+        11: Math.ceil(Math.random() * 6) + " Zombies",
         12: "A Cyclops",
-        13: "1d8 Skeletons",
-        14: "1d6 Orcs",
+        13: Math.ceil(Math.random() * 8) + " Skeletons",
+        14: Math.ceil(Math.random() * 6) + " Orcs",
         15: "An Ogre",
-        16: "1d4 Minotaurs",
-        17: "1d4 Manticores",
+        16: Math.ceil(Math.random() * 4) + " Minotaurs",
+        17: Math.ceil(Math.random() * 4) + " Manticores",
         18: "A Troll",
-        19: "1d4 Ghosts",
+        19: Math.ceil(Math.random() * 4) + " Ghosts",
         20: "A dragon! Scale its stats/size/type to your players level. Make it dangerous!"
         };
     return encounter[number] || "Invalid number. Please enter a number between 1 and 20.";
+}
+
+function getRandomFlair() {
+    return "flair not yet implemented..."
 }

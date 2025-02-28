@@ -44,9 +44,9 @@
     </style>
 </head>
 <body>
-    <table>
+    <!-- <table>
         <tbody>
-            <!-- Generating 8x8 table -->
+            Generating 8x8 table 
             <script>
                 for (let i = 0; i < 8; i++) {
                     document.write('<tr>');
@@ -57,11 +57,32 @@
                 }
             </script>
         </tbody>
-    </table>
+    </table>-->
+
+    <body style="text-align: center; margin-top: 20vh;">
+        <textarea id="text-area" rows="10" cols="30"></textarea>
+        
+        <br>
+
+        <button id="btnUp" onclick="exploreAhead()">Explore Ahead</button>
+        <button id="btnBack" onclick="goBack()">Go Back</button>
+        <button id="btnLeft" onclick="exploreLeft()">Explore Left</button>
+        <button id="btnRight" onclick="exploreRight()">Explore Right</button>
     
-    <input type="text" id="textbox" readonly>
+        <script>
+          function setText(direction) {
+            let text = "you pressed " + direction;
+            document.getElementById("text-area").value = text;
+          }
+        </script>
+    
+    <!--<input type="text" id="textbox" readonly>-->
     
     <script>
+
+        startDungeonCrawl();
+
+
         function setCellValue(row, col, value) {
             let cell = document.getElementById(`cell-${row}-${col}`);
             if (cell) {
