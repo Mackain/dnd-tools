@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8x8 Table</title>
+    <script type="text/javascript" src="dungeon.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 0;
+            width: 50px;
+            height: 50px;
+            min-width: 50px;
+            min-height: 50px;
+            max-width: 50px;
+            max-height: 50px;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+        th {
+            background-color: #ddd;
+        }
+        #textbox {
+            margin-top: 20px;
+            padding: 10px;
+            width: 200px;
+            text-align: center;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tbody>
+            <!-- Generating 8x8 table -->
+            <script>
+                for (let i = 0; i < 8; i++) {
+                    document.write('<tr>');
+                    for (let j = 0; j < 8; j++) {
+                        document.write('<td id="cell-' + i + '-' + j + '" onclick="updateTextbox(this)">' + (i * 8 + j + 1) + '</td>');
+                    }
+                    document.write('</tr>');
+                }
+            </script>
+        </tbody>
+    </table>
+    
+    <input type="text" id="textbox" readonly>
+    
+    <script>
+        function setCellValue(row, col, value) {
+            let cell = document.getElementById(`cell-${row}-${col}`);
+            if (cell) {
+                cell.textContent = value;
+            } else {
+                console.error("Cell not found");
+            }
+        }
+        
+        function updateTextbox(cell) {
+            document.getElementById("textbox").value = cell.textContent;
+        }
+
+        
+
+
+
+    </script>
+</body>
+</html>
+ 
