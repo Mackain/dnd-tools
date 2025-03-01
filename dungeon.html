@@ -5,176 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dubious Dungeon Generator</title>
     <script type="text/javascript" src="dungeon.js"></script>
-    <style>
-        html, body {
-            background-color: #000;
-        }
-
-        #container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 99%;
-            height: 99.9%;
-            background-image: url("https://mackain.github.io/dnd-tools/assets/max-suleimanov-dv-170.jpg");
-            background-repeat:no-repeat;
-            background-position: center center;
-            background-size: cover;
-        }
-
-        #logoContainer {
-            position: absolute;
-            top: 0;
-            width: 100%;
-            height: 10%;
-            text-align: center;
-            vertical-align: middle;
-        }
-
-        #logo {
-            max-width: 100%;
-            max-height: 100%;
-            vertical-align: middle;
-        }
-
-        #text-area {
-            background-color:rgba(0, 0, 0, 0.5);
-            color: white;
-            height: 99%;
-            width: 99%;
-
-            text-align: center;
-            font-size: x-large;
-
-        }
-
-        #textContainer {
-            position: absolute;
-            top: 10%;
-            height: 59%;
-            width: 100%;
-            text-align: center;
-        }
-
-        #controlPanel {
-            position: absolute;
-            bottom: 0%;
-            width: 100%;
-            height: 30%;
-            text-align: center;
-            
-
-        }
-
-        #upperRow {
-            height: 40%;
-            
-        }
-
-        #lowerRow {
-            
-            text-align: center;
-            height: 40%;
-        }
-
-        #creditsContainer {
-            vertical-align: bottom;
-
-            color: white;
-            height: 20%;
-            text-align: center;
-        }
-
-        #credits {
-            vertical-align: bottom;
-
-            color: white;
-            position: absolute;
-            width: 100%;
-            bottom: 0;
-        }
-
-        button {
-            background-color: #000;
-            color: white;
-            width: 200px;
-            height: 99%;
-            max-width: 25%;
-            max-height: 85%;
-            font-size: 15pt;
-            margin: 5px;
-        }
-
-        button:disabled {
-            background-color: #a0a0a0;
-            color: #ffffff;
-            cursor: not-allowed;
-            opacity: 0.6;
-        }
-
-        @media (min-width: 1000px) {
-
-            #container {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-image: url("https://mackain.github.io/dnd-tools/assets/max-suleimanov-dv-170.jpg");
-                background-repeat:no-repeat;
-                background-position: center center;
-                background-size: cover;
-            }
-
-            #text-area {
-                background-color:rgba(0, 0, 0, 0.5);
-                color: white;
-                height: 100%;
-                width: 90%;
-
-                text-align: center;
-                font-size: x-large;
-
-            }
-            #logoContainer {
-                position: absolute;
-                top: 0;
-                width: 100%;
-
-                text-align: center;
-            }
-
-            #logo {
-                width: 100%;
-
-            }
-
-
-
-        }
-
-
-    </style>
+    <link rel="stylesheet" href="dugeonStyle.css"/>
 </head>
     <body>
         <div id="container">
             <div id="logoContainer">
                 <img id="logo" src="https://mackain.github.io/dnd-tools/assets/logo.png">
             </div>
-
             <div id="textContainer">
                 <textarea id="text-area" rows="10" cols="30"></textarea>
             </div>
-
-
             <div id="controlPanel">
                 <div id="upperRow">
-                    <button id="btnUp" onclick="exploreAhead()">Ahead</button>
+                    <button class="navBtn" id="btnUp" onclick="exploreAhead()">Ahead</button>
                 </div>
                 <div id="lowerRow">
-                    <button id="btnLeft" onclick="exploreLeft()">Left</button>
-                    <button id="btnBack" onclick="goBack()">Back</button>
-                    <button id="btnRight" onclick="exploreRight()">Right</button>
+                    <button class="navBtn" id="btnLeft" onclick="exploreLeft()">Left</button>
+                    <button class="navBtn" id="btnBack" onclick="goBack()">Back</button>
+                    <button class="navBtn" id="btnRight" onclick="exploreRight()">Right</button>
                 </div>
                 <div id="creditsContainer">
                     <div id="credits">
@@ -184,6 +32,34 @@
                 </div>
             </div>
         </div>
+        <button id = "menuBtn" onclick="toggleMenu()" >Menu</button>
+
+        <div id="menu">
+            <div>Menu</div>
+            <div>
+                <input type="checkbox" id="coding" name="interest" value="coding" />
+                <label for="coding">Non-Euclidean Architecture</label>
+            </div>
+
+            <div>
+                <input type="number" min="1" max="100" step="1" value="5"/>
+                <label for="coding">Number of rooms</label>
+            </div>
+
+            
+
+            <div>
+                <div>Final room description:</div>
+                <textarea id="finalRoomDescription" rows="10" cols="30">YOU ARRIVE AT THE FINAL ROOM OF THE DUNGEON! The treasure/monster/person/thing you seek is here!</textarea>
+                
+            </div>
+
+
+            <button id="reset" >Reset Dungeon</button>
+
+            <button id="closeMenu" onclick="toggleMenu()" >X</button>
+        </div>
+
         <script>
             startDungeonCrawl();
         </script>
