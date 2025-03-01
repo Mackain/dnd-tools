@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <title>DnD Tools</title>
+    <script type="text/javascript" src="script.js"></script>
+    <script>
+      window.onload = function() {
+        generateQuest();
+        generateEncounter();
+        generateNpc();
+      };
+    </script>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+
+  <body>
+    <div class="container ">
+
+       <div class="blob full">
+          <h1>Random Quest Generator</h1>
+          <p id="quest">Click the button to generate a quest.</p>
+          <button type="button" onclick="generateQuest()">Generate Quest!</button>
+        </div>
+
+
+        <div class="blob halfL">
+          <h1>Random Encounter Generator</h1>
+          <p id="encounter">Click the button for a random encounter.</p>
+          <button type="button" onclick="generateEncounter()">Roll Encounter!</button>
+        </div>
+
+        <div class="blob halfR">
+          <h1>Random Travel Generator. Days to travel:
+          <select name="days" id="days" style="font-size: x-large; text-align-last:center;" onchange="travel(this.value)">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select></h1>
+          <p id="travelLog">Select the number of days to travel.</p>
+          <button type="button" onclick="generateDay()">Next day!</button>
+        </div>
+
+        <div class="blob full">
+          <h1>Random NPC Generator</h1>
+          <p id="npc">Click the button to generate a person.</p>
+          <button type="button" onclick="generateNpc()">Generate NPC!</button>
+        </div>
+        <p class="footer">version 0.2.2</p>
+    </div>
+    
+  </body>
+</html>

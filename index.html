@@ -1,59 +1,58 @@
-<html>
-  <head>
-    <title>DnD Tools</title>
-    <script type="text/javascript" src="script.js"></script>
-    <script>
-      window.onload = function() {
-        generateQuest();
-        generateEncounter();
-        generateNpc();
-      };
-    </script>
-    <link rel="stylesheet" href="style.css"/>
-  </head>
-
-  <body>
-    <div class="container ">
-
-       <div class="blob full">
-          <h1>Random Quest Generator</h1>
-          <p id="quest">Click the button to generate a quest.</p>
-          <button type="button" onclick="generateQuest()">Generate Quest!</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Showcase</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: url('/assets/max-suleimanov-dv-134.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen">
+    <div class="container mx-auto p-4 text-center">
+        <!-- Logo -->
+        <div class="mb-6">
+            <img src="assets/title.png" alt="Logo" class="mx-auto w-120 h-auto">
         </div>
-
-
-        <div class="blob halfL">
-          <h1>Random Encounter Generator</h1>
-          <p id="encounter">Click the button for a random encounter.</p>
-          <button type="button" onclick="generateEncounter()">Roll Encounter!</button>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+            <!-- Book 1 -->
+            <div class="bg-white bg-opacity-50 p-6 shadow-lg rounded-lg">
+                <h2 class="text-lg font-semibold mb-2">Book of Dungeons</h2>
+                <img src="/assets/dungeons.png" alt="Book 1" class="mx-auto mb-4 w-60 h-80 object-contain">
+                <div class="space-y-2">
+                    <a href="#" class="block text-blue-600 text-lg font-medium hover:underline">PDF & Paperback</a>
+                    <a href="#" class="block text-blue-600 text-lg font-medium hover:underline">Interactive version!</a>
+                </div>
+            </div>
+            
+            <!-- Book 2 -->
+            <div class="bg-white bg-opacity-50 p-6 shadow-lg rounded-lg">
+                <h2 class="text-lg font-semibold mb-2">Book of Characters</h2>
+                <img src="/assets//npcs.png" alt="Book 2" class="mx-auto mb-4 w-60 h-80 object-contain">
+                <div class="space-y-2">
+                  <p>TBA</p>
+                </div>
+            </div>
+            
+            <!-- Book 3 -->
+            <div class="bg-white bg-opacity-50 p-6 shadow-lg rounded-lg">
+                <h2 class="text-lg font-semibold mb-2">Book of Quests</h2>
+                <img src="/assets/quests.png" alt="Book 3" class="mx-auto mb-4 w-60 h-80 object-contain">
+                <div class="space-y-2">
+                  <p>TBA</p>
+                </div>
+            </div>
         </div>
-
-        <div class="blob halfR">
-          <h1>Random Travel Generator. Days to travel:
-          <select name="days" id="days" style="font-size: x-large; text-align-last:center;" onchange="travel(this.value)">
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-          </select></h1>
-          <p id="travelLog">Select the number of days to travel.</p>
-          <button type="button" onclick="generateDay()">Next day!</button>
-        </div>
-
-        <div class="blob full">
-          <h1>Random NPC Generator</h1>
-          <p id="npc">Click the button to generate a person.</p>
-          <button type="button" onclick="generateNpc()">Generate NPC!</button>
-        </div>
-        <p class="footer">version 0.2.2</p>
     </div>
     
-  </body>
+    <!-- Copyright Footer -->
+    <footer class="mt-6 p-4 text-center text-white text-sm">
+        &copy; 2025 Book Showcase. All rights reserved.
+    </footer>
+</body>
 </html>
