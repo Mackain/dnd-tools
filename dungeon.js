@@ -1,17 +1,23 @@
 
 // Declaration
 class Room {
-    constructor(directions, tableIndex) {
+    constructor(directions, tableIndex, firstFacing) {
         // a string containing the cardinal direction that the room connects to.
         this.directions = directions;
         // the number representing the room description
         this.tableIndex = tableIndex;
+
+        // the direction that player was facing when first entered the room. 
+        // needed for when re-entering old room.
+        this.firstFacing = firstFacing;
+
     }
   }
 
 // TODO implement this very important feature!
+// array of indexes for rooms whith possible paths but not explored yet.
 // without it dungeons can become just a long corridor without doors ending in a dead end...
-var doorsLeftUnopened = 0
+var unexploredIndexesWithAccessingDoors = []
 
 var facing = "N"
 
@@ -30,47 +36,89 @@ var dungeon = [
     " "," "," "," "," "," "," "," "," "," "
 ];
 
+function scanDungeonForUnopenedDoors(){
+    // just reset the array each time so it does not need to ever get cleaned up...
+    unexploredIndexesWithAccessingDoors = []
+    dungeon.forEach(checkRoomForDoors);
+}
+
+
+function checkRoomForDoors(room, index, arr){
+
+    if (room.tableIndex != null) {
+        console.log("checking room " + room.directions + " at index " + index)
+
+        // check north
+        if(dungeon[index-10] == " " && room.directions.includes("N")) {
+            unexploredIndexesWithAccessingDoors.push(index-10);
+            console.log(index+ " has an unexplored room to the north!")
+        }
+
+        // check east
+        if(dungeon[index+1] == " " && room.directions.includes("E")) {
+            unexploredIndexesWithAccessingDoors.push(index++);
+            console.log(index+ " has an unexplored room to the east!")
+        }
+
+        // check south
+        if(dungeon[index+10] == " " && room.directions.includes("S")) {
+            unexploredIndexesWithAccessingDoors.push(index+10);
+            console.log(index+ " has an unexplored room to the south!")
+        }
+
+        // check west
+        if(dungeon[index-1] == " " && room.directions.includes("W")) {
+            unexploredIndexesWithAccessingDoors.push(index--);
+            console.log(index+ " has an unexplored room to the east!")
+        }
+
+    }
+    
+}
 
 function exploreDungeon(index){
+    output = "";
+    blockedPaths = "";
+    connectedPaths = "";
+    var roomDescription = "";
+
 
     // have we been here before?!?
     if(dungeon[index] != " ") {
         console.log("WE HAVE BEEN HERE BEFORE!")
         // aw shiet.. time to do some heavy calculations...
+        output += "You re-enter a room you have already explored!\n"
 
         // TODO no need to generate new room... but we need to spin!
-        // rotate facing unitl it matches the paths available in the room.
+        if(dungeon[index].firstFacing != facing){
+            console.log("ROTATING TO FACE " + dungeon[index].firstFacing);
+            facing = dungeon[index].firstFacing;
+        }
+        
         // then just print the room again, and pretend like nothing happened.
-        return
+        roomDescription = getDescription(dungeon[index].tableIndex);
+
+    } else {
+
+        // TODO calcualte subset of numbers that needs to be rolled on
+        // if for example there is a different toom that needs to connect to this room from elsewhere.
+        //limitedNumbers = calculateLimitedNumbers(index);
+        blockedNumbers = calculateBlockedNumbers(index);
+
+        console.log("blocked numbers: " + blockedNumbers);
+
+        var d100 = rollRoom(blockedNumbers);
+        var dir = getConnectingPaths(d100) 
+        console.log ("possible paths: " + dir)
+        setRoom(index, d100);
+        roomDescription = getDescription(d100);
+
     }
-
-
-    output = "";
-    blockedPaths = "";
-    connectedPaths = "";
-
-    // TODO calcualte subset of numbers that needs to be rolled on
-    // if for example there is a different toom that needs to connect to this room from elsewhere.
-    //limitedNumbers = calculateLimitedNumbers(index);
-
-    blockedNumbers = calculateBlockedNumbers(index);
-    console.log("blocked numbers: " + blockedNumbers);
 
 
     // ROLL ON RANDOM INSTRUCTION TABLE A
     var d4 = Math.ceil(Math.random() * 4);
 
-    var d100 = rollRoom(blockedNumbers);
-
-    var dir = getConnectingPaths(d100) 
-
-    console.log ("possible paths: " + dir)
-
-    //var newRoom = new Room(facing, d100);
-    //dungeon[index] = newRoom;
-    setRoom(index, d100);
-
-    var roomDescription = getDescription(d100);
     console.log(roomDescription);
     output += roomDescription;
 
@@ -203,7 +251,7 @@ function setRoom(index, dieRoll) {
     // create a room
     roomPaths = getConnectingPaths(dieRoll)
 
-    room = new Room(roomPaths, dieRoll) 
+    room = new Room(roomPaths, dieRoll, facing) 
 
     // stick it in the dungeon
     dungeon[index] = room;
@@ -340,7 +388,7 @@ function getBlockedPaths(index) {
 
 // returns a sting containing the directions that this room is connected to (NESW)
 // need to know this if you are generating a new room.
-function getConnectedPathsForUnexploredRoom(index) {
+function UNUSEDgetConnectedPathsForUnexploredRoom(index) {
 
     var connectedDirections = "";
 
@@ -428,13 +476,15 @@ function getConnectedPathsForUnexploredRoom(index) {
 // returns an array of all the entries in the random dungeon table that cannot
 // be used based on the blocked relative paths (ARBL)
 function calculateBlockedNumbers(index) {
-
     blockedPaths = getBlockedPaths(index);
     var blockedArray = [];
 
+    scanDungeonForUnopenedDoors();
+
 
     // if this is the firs room to be explored (the dungeon is empty) then block dead ends from being generated.
-    if (!dungeon.some(value => value !== " ")) {
+    // ALSO BLOCK DEAD-ENDS IF THERE ARE NO UNEXPLORED ROOMS
+    if ((!dungeon.some(value => value !== " ")) || unexploredIndexesWithAccessingDoors.length == 0) {
         for (let i = 1; i <= 30; i++) {
             blockedArray.push(i);
         }

@@ -3,104 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>8x8 Table</title>
+    <title>Dubious Dungeon Generator</title>
     <script type="text/javascript" src="dungeon.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
+        html, body {
         }
-        table {
-            border-collapse: collapse;
+
+        #container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+
+            background-image: url("/assets/max-suleimanov-dv-170.jpg");
+            background-repeat:no-repeat;
+            background-position: center center;
+            background-size: cover;
         }
-        th, td {
-            border: 1px solid black;
-            padding: 0;
-            width: 50px;
-            height: 50px;
-            min-width: 50px;
-            min-height: 50px;
-            max-width: 50px;
-            max-height: 50px;
+
+        #logoContainer {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 15%;
             text-align: center;
-            vertical-align: middle;
-            cursor: pointer;
         }
-        th {
-            background-color: #ddd;
+
+        #logo {
+            height: 100%;
         }
-        #textbox {
-            margin-top: 20px;
-            padding: 10px;
-            width: 200px;
+
+        #text-area {
+            background-color:rgba(0, 0, 0, 0.5);
+            color: white;
+            height: 100%;
+            width: 100%;
+            max-width: 1100px;
             text-align: center;
-            font-size: 16px;
+            font-size: x-large;
+
         }
+
+        #textContainer {
+            position: absolute;
+            top: 15%;
+            height: 65%;
+            width: 100%;
+            text-align: center;
+        }
+
+        #controlPanel {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 15%;
+            text-align: center;
+
+        }
+
+        #upperRow {
+            height: 50%;
+        }
+
+        #lowerRow {
+            text-align: center;
+            height: 50%;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+        }
+
+        button:disabled {
+            background-color: #a0a0a0;
+            color: #ffffff;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+
+
+
     </style>
 </head>
-<body>
-    <!-- <table>
-        <tbody>
-            Generating 8x8 table 
-            <script>
-                for (let i = 0; i < 8; i++) {
-                    document.write('<tr>');
-                    for (let j = 0; j < 8; j++) {
-                        document.write('<td id="cell-' + i + '-' + j + '" onclick="updateTextbox(this)">' + (i * 8 + j + 1) + '</td>');
-                    }
-                    document.write('</tr>');
-                }
-            </script>
-        </tbody>
-    </table>-->
+    <body>
+        <div id="container">
+            <div id="logoContainer">
+                <img id="logo" src="/assets/logo.png">
+            </div>
 
-    <body style="text-align: center; margin-top: 20vh;">
-        <textarea id="text-area" rows="10" cols="30"></textarea>
-        
-        <br>
+            <div id="textContainer">
+                <textarea id="text-area" rows="10" cols="30"></textarea>
+            </div>
 
-        <button id="btnUp" onclick="exploreAhead()">Explore Ahead</button>
-        <button id="btnBack" onclick="goBack()">Go Back</button>
-        <button id="btnLeft" onclick="exploreLeft()">Explore Left</button>
-        <button id="btnRight" onclick="exploreRight()">Explore Right</button>
-    
+
+            <div id="controlPanel">
+                <div id="upperRow">
+                    <button id="btnUp" onclick="exploreAhead()">Explore Ahead</button>
+                </div>
+                <div id="lowerRow">
+                    <button id="btnLeft" onclick="exploreLeft()">Explore Left</button>
+                    <button id="btnBack" onclick="goBack()">Go Back</button>
+                    <button id="btnRight" onclick="exploreRight()">Explore Right</button>
+                </div>
+            </div>
+        </div>
         <script>
-          function setText(direction) {
-            let text = "you pressed " + direction;
-            document.getElementById("text-area").value = text;
-          }
+            startDungeonCrawl();
         </script>
-    
-    <!--<input type="text" id="textbox" readonly>-->
-    
-    <script>
-
-        startDungeonCrawl();
-
-
-        function setCellValue(row, col, value) {
-            let cell = document.getElementById(`cell-${row}-${col}`);
-            if (cell) {
-                cell.textContent = value;
-            } else {
-                console.error("Cell not found");
-            }
-        }
-        
-        function updateTextbox(cell) {
-            document.getElementById("textbox").value = cell.textContent;
-        }
-
-        
-
-
-
-    </script>
-</body>
+    </body>
 </html>
  
