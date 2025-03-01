@@ -7,14 +7,15 @@
     <script type="text/javascript" src="dungeon.js"></script>
     <style>
         html, body {
+            background-color: #000;
         }
 
         #container {
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 99%;
+            height: 99.9%;
             background-image: url("https://mackain.github.io/dnd-tools/assets/max-suleimanov-dv-170.jpg");
             background-repeat:no-repeat;
             background-position: center center;
@@ -25,13 +26,15 @@
             position: absolute;
             top: 0;
             width: 100%;
-            max-height: 15%;
+            height: 10%;
             text-align: center;
+            vertical-align: middle;
         }
 
         #logo {
-            width: 100%;
-            max-width: 500px;
+            max-width: 100%;
+            max-height: 100%;
+            vertical-align: middle;
         }
 
         #text-area {
@@ -48,30 +51,47 @@
         #textContainer {
             position: absolute;
             top: 10%;
-            height: 65%;
+            height: 59%;
             width: 100%;
             text-align: center;
         }
 
         #controlPanel {
             position: absolute;
-            bottom: 1%;
+            bottom: 0%;
             width: 100%;
-            height: 20%;
+            height: 30%;
             text-align: center;
-
+            
 
         }
 
         #upperRow {
-            height: 50%;
+            height: 40%;
             
         }
 
         #lowerRow {
             
             text-align: center;
-            height: 50%;
+            height: 40%;
+        }
+
+        #creditsContainer {
+            vertical-align: bottom;
+
+            color: white;
+            height: 20%;
+            text-align: center;
+        }
+
+        #credits {
+            vertical-align: bottom;
+
+            color: white;
+            position: absolute;
+            width: 100%;
+            bottom: 0;
         }
 
         button {
@@ -79,9 +99,10 @@
             color: white;
             width: 200px;
             height: 99%;
-            max-width: 30%;
-            max-height: 99%;
+            max-width: 25%;
+            max-height: 85%;
             font-size: 15pt;
+            margin: 5px;
         }
 
         button:disabled {
@@ -143,6 +164,12 @@
                     <button id="btnLeft" onclick="exploreLeft()">Left</button>
                     <button id="btnBack" onclick="goBack()">Back</button>
                     <button id="btnRight" onclick="exploreRight()">Right</button>
+                </div>
+                <div id="creditsContainer">
+                    <div id="credits">
+                        Interactive version of the Dubious Book of Dungeons</br>
+                        Background: Entrance to the dungeon by <a href="https://www.artstation.com/refiend">Max Suleimanov</a>
+                    </div>
                 </div>
             </div>
         </div>
