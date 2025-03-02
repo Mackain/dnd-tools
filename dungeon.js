@@ -36,11 +36,12 @@ var playerLocation = null;
 var nonEuclideanArchitecture = false;
 
 var minNumberOfRooms = 10;
+var minNumberOfRoomsOnStart = 10;
 
 // allows mobs to roam the dungeon, thus you can have random encounters in rooms already explored.
 var roamingEnemies = true;
 
-var finalRoomDescription = "Final room description goes here."
+var finalRoomDescription = "You reach the inner sanctum of the dungeon. Herein lies the reason for your quest!"
 var startingRoomDescription = "The entrance to the dungeon is dark and foreboding. You enter a small antechamber with a door straight ahead. There is no telling what dangers lie ahead."
 
 var startRoom = new Room("N", 101, "N", null, startingRoomDescription);
@@ -961,6 +962,7 @@ function toggleMenu() {
 
 function updateFinalRoomDescription() {
     finalRoomDescription = document.getElementById('finalRoomDescription').value;
+    finalRoom.roomDescription = finalRoomDescription;
 }
 
 function updateRoamingMobs() {
@@ -975,8 +977,27 @@ function updateRoomNumber() {
     console.log(minNumberOfRooms + " eep " + document.getElementById('numberOfRooms').value)
 
     if( document.getElementById('numberOfRooms').value != minNumberOfRooms) {
-        finalRoomDescription = document.getElementById('menuText').innerHTML = "Restart dungeon for settings to take effect";
+        minNumberOfRoomsOnStart = document.getElementById('numberOfRooms').value;
+        menuTextDiv = document.getElementById('menuText').innerHTML = "Restart dungeon for settings to take effect";
     } else {
-        finalRoomDescription = document.getElementById('menuText').innerHTML = "";
+        menuTextDiv = document.getElementById('menuText').innerHTML = "";
     }
+}
+
+function resetDungeon(){
+    dungeon = [
+        " "," "," "," "," "," "," "," "," "," ",
+        " "," "," "," "," "," "," "," "," "," ",
+        " "," "," "," "," "," "," "," "," "," ",
+        " "," "," "," "," "," "," "," "," "," ",
+        " "," "," "," "," "," "," "," "," "," ",
+        " "," "," "," "," "," "," "," "," "," ",
+        " "," "," "," "," "," "," "," "," "," ",
+        " "," "," "," "," "," "," "," "," "," ",
+        " "," "," "," "," "," "," "," "," "," ",
+        " "," "," "," "," "," "," "," "," "," "
+    ];
+    minNumberOfRooms = minNumberOfRoomsOnStart;
+    document.getElementById('menu').style.display = "none";
+    startDungeonCrawl();
 }

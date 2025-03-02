@@ -50,7 +50,7 @@
                     </div>
                     <div>
                         <div>Final room description:</div>
-                        <textarea id="finalRoomDescription" rows="10" cols="30">The treasure/monster/person/thing you seek is here!</textarea>
+                        <textarea id="finalRoomDescription" rows="10" cols="30" onchange="updateFinalRoomDescription()"></textarea>
                     </div>
                     <div>
                         <input id="numberOfRooms" type="number" min="1" max="100" step="1" value="10" onclick="updateRoomNumber()"/>
@@ -59,7 +59,7 @@
                 </div>
                 <div id="menuText" style="color: red;"></div>
 
-                <button id="reset" >Reset Dungeon</button>
+                <button id="reset" onclick="resetDungeon()">Reset Dungeon</button>
 
                 <button id="closeMenu" onclick="toggleMenu()" >X</button>
             </div>
