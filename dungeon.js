@@ -41,9 +41,6 @@ var roamingEnemies = true;
 var finalRoomDescription = "Final room description goes here."
 var startingRoomDescription = "The entrance to the dungeon is dark and foreboding. You enter a small antechamber with a door straight ahead. There is no telling what dangers lie ahead."
 
-startingRoomDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a enim et felis fermentum pellentesque iaculis sed enim. In vitae erat et nisl laoreet porta. Curabitur a augue at nunc finibus ullamcorper. Ut et mi sit amet quam volutpat aliquam sit amet nec est. Vivamus sit amet ante nulla. Fusce vel sem elementum, vulputate massa in, blandit massa. Proin nec rutrum lacus, quis eleifend turpis. Donec ut felis non mauris aliquet aliquam porttitor sed massa. Nullam volutpat elementum metus at ultrices. Ut lobortis consectetur molestie. Aliquam eget ipsum tellus. Aliquam a ex sed ligula luctus suscipit. Vivamus lectus nisl, hendrerit ac nisi ac, viverra bibendum lectus. Donec eu viverra odio, vitae convallis mauris. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vestibulum consectetur magna ac tempor faucibus. Cras vitae velit pulvinar, lobortis mi non, hendrerit dolor. Curabitur quis ex eu enim tincidunt blandit interdum sit amet neque."
-
-
 var startRoom = new Room("N", 101, "N", null, startingRoomDescription);
 var finalRoom = new Room("", 102, null, null, finalRoomDescription);
 
