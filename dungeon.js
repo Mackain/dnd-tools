@@ -33,6 +33,8 @@ var facing = "N"
 
 var playerLocation = null;
 
+var nonEuclideanArchitecture = false;
+
 var minNumberOfRooms = 10;
 
 // allows mobs to roam the dungeon, thus you can have random encounters in rooms already explored.
@@ -147,7 +149,6 @@ function exploreDungeon(index){
         roomDescription = dungeon[index].roomDescription;
 
     } else {
-
         // time to add a new room to the dungeon.
 
         // decrease room counter by one.
@@ -181,11 +182,15 @@ function exploreDungeon(index){
     }
 
     
-
-    if (revisitingRoom && roamingEnemies == false)
-    {
+    // do not allow mobs in visited rooms if roaming enemies is disabled.
+    if (revisitingRoom && roamingEnemies == false) {
         canGetRandomEncounter = false;
     }
+    // do not allow random encounters in the final room
+    if (finalRoom.dungeonIndex != index) {
+        canGetRandomEncounter = false;
+    }
+
     if (d4 == 4 && canGetRandomEncounter) {
         console.log("RANDOM ENCOUNTER")
         // console.log(getRandomEncounter());
@@ -545,50 +550,54 @@ function calculateBlockedNumbers(index) {
         for (let i = 1; i <= 30; i++) {
             blockedArray.push(i);
         }
-        console.log("block deadends!")
     }
 
-    // cant go ahead
-    if (blockedPaths.includes("A")) {
-        // block 41-50, 61-80, 91-100
-        for (let i = 41; i <= 50; i++) {
-            blockedArray.push(i);
+    // if non-Euclidean Architecture is allowed then you can go anywhere!
+    if(nonEuclideanArchitecture == false) {
+        // cant go ahead
+        if (blockedPaths.includes("A")) {
+            // block 41-50, 61-80, 91-100
+            for (let i = 41; i <= 50; i++) {
+                blockedArray.push(i);
+            }
+            for (let i = 61; i <= 80; i++) {
+                blockedArray.push(i);
+            }
+            for (let i = 91; i <= 100; i++) {
+                blockedArray.push(i);
+            }
         }
-        for (let i = 61; i <= 80; i++) {
-            blockedArray.push(i);
+
+        // cant go right
+        if (blockedPaths.includes("R")) {
+            // block 51-60, 71-100
+            for (let i = 51; i <= 60; i++) {
+                blockedArray.push(i);
+            }
+            for (let i = 71; i <= 100; i++) {
+                blockedArray.push(i);
+            }
         }
-        for (let i = 91; i <= 100; i++) {
-            blockedArray.push(i);
+
+        // cant go back
+        // wait... you can always go back...
+
+        // cant go left
+        if (blockedPaths.includes("R")) {
+            // block 31-40, 61-70, 81-100
+            for (let i = 31; i <= 40; i++) {
+                blockedArray.push(i);
+            }
+            for (let i = 61; i <= 70; i++) {
+                blockedArray.push(i);
+            }
+            for (let i = 81; i <= 100; i++) {
+                blockedArray.push(i);
+            }
         }
     }
 
-    // cant go right
-    if (blockedPaths.includes("R")) {
-        // block 51-60, 71-100
-        for (let i = 51; i <= 60; i++) {
-            blockedArray.push(i);
-        }
-        for (let i = 71; i <= 100; i++) {
-            blockedArray.push(i);
-        }
-    }
-
-    // cant go back
-    // wait... you can always go back...
-
-    // cant go left
-    if (blockedPaths.includes("R")) {
-        // block 31-40, 61-70, 81-100
-        for (let i = 31; i <= 40; i++) {
-            blockedArray.push(i);
-        }
-        for (let i = 61; i <= 70; i++) {
-            blockedArray.push(i);
-        }
-        for (let i = 81; i <= 100; i++) {
-            blockedArray.push(i);
-        }
-    }
+    
 
     return blockedArray;
 
@@ -943,22 +952,31 @@ function getRandomFlair() {
 
 function toggleMenu() {
     var menu = document.getElementById('menu');
-
-    if(menu.style.display == "none") {
-
-        menu.style.display = "block"; 
-    } else {
+    if(menu.style.display == "block") {
         menu.style.display = "none"; 
+    } else {
+        menu.style.display = "block"; 
     }
-    
 }
-
 
 function updateFinalRoomDescription() {
     finalRoomDescription = document.getElementById('finalRoomDescription').value;
 }
 
-
 function updateRoamingMobs() {
     roamingEnemies = document.getElementById('roamingMobs').checked
+}
+
+function updateNonEuclideanArchitecture() {
+    nonEuclideanArchitecture = document.getElementById('nonEuclideanArchitectureCheck').checked
+}
+
+function updateRoomNumber() {
+    console.log(minNumberOfRooms + " eep " + document.getElementById('numberOfRooms').value)
+
+    if( document.getElementById('numberOfRooms').value != minNumberOfRooms) {
+        finalRoomDescription = document.getElementById('menuText').innerHTML = "Restart dungeon for settings to take effect";
+    } else {
+        finalRoomDescription = document.getElementById('menuText').innerHTML = "";
+    }
 }

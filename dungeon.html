@@ -14,7 +14,7 @@
             </div>
             <div id="textContainer">
                 <!--<textarea id="text-area" rows="10" cols="30"></textarea>-->
-                <div id="text-area" contenteditable="true"></div>
+                <div id="text-area"></div>
 
             </div>
             <div id="controlPanel">
@@ -36,37 +36,34 @@
         <button id = "menuBtn" onclick="toggleMenu()" >Settings</button>
 
         <div id="menu">
-            <div>Settings</div>
-            <div>
-                <input type="checkbox" id="coding" name="interest" value="coding" />
-                <label for="coding">Non-Euclidean Architecture (requires reset)</label>
+            <div id="menuBox">
+            </br></br>
+                <div style="font-size: xx-large;">Settings</div>
+                <div id="menuBoxBox">
+                    <div>
+                        <input type="checkbox" id="nonEuclideanArchitectureCheck" name="interest" onclick="updateNonEuclideanArchitecture()" />
+                        <label for="nonEuclideanArchitectureCheck">Non-Euclidean Architecture</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="roamingMobs" name="interest" value="coding" checked onclick="updateRoamingMobs()"/>
+                        <label for="roamingMobs">Roaming monsters</label>
+                    </div>
+                    <div>
+                        <div>Final room description:</div>
+                        <textarea id="finalRoomDescription" rows="10" cols="30">The treasure/monster/person/thing you seek is here!</textarea>
+                    </div>
+                    <div>
+                        <input id="numberOfRooms" type="number" min="1" max="100" step="1" value="10" onclick="updateRoomNumber()"/>
+                        <label for="numberOfRooms">Minimum Number of rooms (requires reset)</label>
+                    </div>
+                </div>
+                <div id="menuText" style="color: red;"></div>
+
+                <button id="reset" >Reset Dungeon</button>
+
+                <button id="closeMenu" onclick="toggleMenu()" >X</button>
             </div>
-
-            <div>
-                <input type="checkbox" id="roamingMobs" name="interest" value="coding" checked onclick="updateRoamingMobs()"/>
-                <label for="roamingMobs">Roaming monsters</label>
-            </div>
-
-
-            <div>
-                <input id="numberOfRooms" type="number" min="1" max="100" step="1" value="10"/>
-                <label for="coding">Minimum Number of rooms (requires reset)</label>
-            </div>
-
-            
-
-            <div>
-                <div>Final room description:</div>
-                <textarea id="finalRoomDescription" rows="10" cols="30">The treasure/monster/person/thing you seek is here!</textarea>
-                
-            </div>
-
-
-            <button id="reset" >Reset Dungeon</button>
-
-            <button id="closeMenu" onclick="toggleMenu()" >X</button>
         </div>
-
         <script>
             startDungeonCrawl();
         </script>
