@@ -1,7 +1,7 @@
 
 // Declaration
 class Room {
-    constructor(directions, tableIndex, firstFacing) {
+    constructor(directions, tableIndex, firstFacing, dungeonIndex) {
         // a string containing the cardinal direction that the room connects to.
         this.directions = directions;
         // the number representing the room description
@@ -10,6 +10,9 @@ class Room {
         // the direction that player was facing when first entered the room. 
         // needed for when re-entering old room.
         this.firstFacing = firstFacing;
+
+        // where in the dungeon the room is located.
+        this.dungeonIndex = dungeonIndex;
 
     }
   }
@@ -22,6 +25,15 @@ var unexploredIndexesWithAccessingDoors = []
 var facing = "N"
 
 var playerLocation = null;
+
+var minNumberOfRooms = 10;
+
+
+
+
+var startRoom = new Room("N", 101, "N", null);
+var finalRoom = new Room("", 102, null, null);
+
 
 var dungeon = [
     " "," "," "," "," "," "," "," "," "," ",
@@ -38,38 +50,46 @@ var dungeon = [
 
 function scanDungeonForUnopenedDoors(){
     // just reset the array each time so it does not need to ever get cleaned up...
-    unexploredIndexesWithAccessingDoors = []
+    unexploredIndexesWithAccessingDoors = [];
     dungeon.forEach(checkRoomForDoors);
+    console.log("unexplored rooms: " + unexploredIndexesWithAccessingDoors)
 }
 
 
-function checkRoomForDoors(room, index, arr){
+function checkRoomForDoors(room){
 
+
+    // if the room has an index it has been explored.
     if (room.tableIndex != null) {
-        console.log("checking room " + room.directions + " at index " + index)
+        console.log("checking room " + room.directions + " at index " + room.dungeonIndex + " - playerLocation: " + playerLocation)
 
-        // check north
-        if(dungeon[index-10] == " " && room.directions.includes("N")) {
-            unexploredIndexesWithAccessingDoors.push(index-10);
-            console.log(index+ " has an unexplored room to the north!")
+        // this room has been explored. now lets check its neighbours.
+        var northIndex = room.dungeonIndex-10;
+        var southIndex = room.dungeonIndex+10;
+        var eastIndex = room.dungeonIndex+1;
+        var westIndex = room.dungeonIndex-1;
+
+        if(room.directions.includes("N") && dungeon[northIndex] == " " && northIndex != playerLocation){
+            // this room has a door that leads to an unexplored space!
+            unexploredIndexesWithAccessingDoors.push(northIndex);
+            console.log("ADDING UNEXPLORED ROOM NORTH " + northIndex)
+        }
+        if(room.directions.includes("S") && dungeon[southIndex] == " " && southIndex != playerLocation){
+            // this room has a door that leads to an unexplored space!
+            unexploredIndexesWithAccessingDoors.push(southIndex);
+            console.log("ADDING UNEXPLORED ROOM SOUTH " + southIndex)
         }
 
-        // check east
-        if(dungeon[index+1] == " " && room.directions.includes("E")) {
-            unexploredIndexesWithAccessingDoors.push(index++);
-            console.log(index+ " has an unexplored room to the east!")
+        if(room.directions.includes("E") && dungeon[eastIndex] == " " && eastIndex != playerLocation){
+            // this room has a door that leads to an unexplored space!
+            unexploredIndexesWithAccessingDoors.push(eastIndex);
+            console.log("ADDING UNEXPLORED ROOM EAST " + eastIndex)
         }
 
-        // check south
-        if(dungeon[index+10] == " " && room.directions.includes("S")) {
-            unexploredIndexesWithAccessingDoors.push(index+10);
-            console.log(index+ " has an unexplored room to the south!")
-        }
-
-        // check west
-        if(dungeon[index-1] == " " && room.directions.includes("W")) {
-            unexploredIndexesWithAccessingDoors.push(index--);
-            console.log(index+ " has an unexplored room to the east!")
+        if(room.directions.includes("W") && dungeon[westIndex] == " " && westIndex != playerLocation){
+            // this room has a door that leads to an unexplored space!
+            unexploredIndexesWithAccessingDoors.push(westIndex);
+            console.log("ADDING UNEXPLORED ROOM WEST " + westIndex)
         }
 
     }
@@ -83,8 +103,21 @@ function exploreDungeon(index){
     var roomDescription = "";
 
 
-    // have we been here before?!?
-    if(dungeon[index] != " ") {
+    // is this the first room?
+    if (!dungeon.some(value => value !== " ")) {
+        console.log("FIRST ROOM!")
+        roomDescription = getDescription(startRoom.tableIndex);
+        dungeon[index] = startRoom;
+
+    } else if (minNumberOfRooms == 1 && dungeon[index] == " ") {
+        // last room!
+        console.log("FINAL ROOM!")
+        roomDescription = getDescription(finalRoom.tableIndex);
+        finalRoom.dungeonIndex = index;
+        finalRoom.firstFacing = facing;
+        dungeon[index] = finalRoom;
+
+    } else if(dungeon[index] != " ") {
         console.log("WE HAVE BEEN HERE BEFORE!")
         // aw shiet.. time to do some heavy calculations...
         output += "You re-enter a room you have already explored!\n"
@@ -100,9 +133,17 @@ function exploreDungeon(index){
 
     } else {
 
+        // time to add a new room to the dungeon.
+
+        // decrease room counter by one.
+        minNumberOfRooms--;
+
         // TODO calcualte subset of numbers that needs to be rolled on
-        // if for example there is a different toom that needs to connect to this room from elsewhere.
+        // if for example there is a different room that needs to connect to this room from elsewhere.
         //limitedNumbers = calculateLimitedNumbers(index);
+
+
+
         blockedNumbers = calculateBlockedNumbers(index);
 
         console.log("blocked numbers: " + blockedNumbers);
@@ -119,20 +160,22 @@ function exploreDungeon(index){
     // ROLL ON RANDOM INSTRUCTION TABLE A
     var d4 = Math.ceil(Math.random() * 4);
 
-    console.log(roomDescription);
+    // console.log(roomDescription);
     output += roomDescription;
 
 
     if (d4 == 1) {
         console.log("RANDOM FLAIR")
-        console.log(getRandomFlair());
+        // console.log(getRandomFlair());
     }
 
     if (d4 == 4) {
         console.log("RANDOM ENCOUNTER")
-        console.log(getRandomEncounter());
+        // console.log(getRandomEncounter());
     }
 
+    
+    console.log("min rooms left: " + minNumberOfRooms)
     printDungeon(output)
 
 }
@@ -150,13 +193,14 @@ function rollRoom(blockedNumbers) {
 
 function startDungeonCrawl() {
     playerLocation = setRandomStartingLocation();
+    startRoom.dungeonIndex = playerLocation;
     exploreDungeon(playerLocation);
 }
 
 
 function setRandomStartingLocation() {
     // can spawn at any point in the dungeon... for now.
-    return Math.floor(Math.random() * 100);
+    return Math.floor(Math.random() * 90) + 10;
 }
 
 
@@ -251,7 +295,7 @@ function setRoom(index, dieRoll) {
     // create a room
     roomPaths = getConnectingPaths(dieRoll)
 
-    room = new Room(roomPaths, dieRoll, facing) 
+    room = new Room(roomPaths, dieRoll, facing, index) 
 
     // stick it in the dungeon
     dungeon[index] = room;
@@ -295,7 +339,6 @@ function getBlockedPaths(index) {
         }
     }
     if (!blockedCardinalPaths.includes("E") && (dungeon[roomEastIndex] != null) && (dungeon[roomEastIndex] != " ") )  {
-        console.log("pipe" + dungeon[roomEastIndex])
         if(!dungeon[roomEastIndex].directions.includes("W")) {
             console.log("room east of here is explored but has no door leading west!")
             blockedCardinalPaths += "E";
@@ -314,7 +357,7 @@ function getBlockedPaths(index) {
         }
     }
 
-    console.log("cannot go " + blockedCardinalPaths);
+    // console.log("cannot go " + blockedCardinalPaths);
 
 
     // now translate cardinal paths to directional paths.
@@ -374,7 +417,7 @@ function getBlockedPaths(index) {
         }
     }
 
-    console.log("cannot go " + blockedRelativePaths);
+    // console.log("cannot go " + blockedRelativePaths);
 
     return blockedRelativePaths;
 
@@ -488,6 +531,7 @@ function calculateBlockedNumbers(index) {
         for (let i = 1; i <= 30; i++) {
             blockedArray.push(i);
         }
+        console.log("block deadends!")
     }
 
     // cant go ahead
@@ -547,6 +591,8 @@ function printDungeon(output) {
             } else {
                 if (playerLocation == (i*10)+j) {
                     dungeonRow += "🧙‍♂️"
+                } else if (dungeon[(i*10)+j].tableIndex == startRoom.tableIndex) {
+                    dungeonRow += "S"
                 } else {
                     dungeonRow += "[]"
                 }
@@ -560,6 +606,8 @@ function printDungeon(output) {
     console.log("facing: " + facing);
 
     console.log("playerLocation: " + playerLocation)
+
+    console.log("rooms left: " + minNumberOfRooms)
 
     console.log("-----------------------------------");
     document.getElementById("text-area").value = output;
@@ -644,19 +692,19 @@ function getConnectingPaths(number) {
 
     // continues left (31-40, 61-70, 81-100)
     if ((number > 30 && number < 41) || (number > 60 && number < 71) || (number > 80) ) {
-        console.log("continues left")
+        // console.log("continues left")
         paths += "L";
     }
 
     // continues ahead 
     if ((number > 40 && number < 51) || (number > 60 && number < 81) || (number > 90)) {
-        console.log("continues ahead")
+        // console.log("continues ahead")
         paths += "A";
     }
 
     // continues right 
     if ((number > 50 && number < 61) || (number > 70)) {
-        console.log("continues right")
+        // console.log("continues right")
         paths += "R";
     }
 
@@ -837,7 +885,10 @@ function getDescription(number) {
         97: "This room seems to have once been some sort of exhibition. Statues and ornaments once filled this hall, now the few that remain are broken and scattered. Empty hooks on the wall give you an impression that the walls were once adorned with paintings and tapestries. You see a door in either direction, one straight ahead, and one to either side.",
         98: "You enter a circular room with a domed ceiling. The walls are adorned with intricate frescoes depicting ancient myths.\n\nBesides the door you just entered, there are three more doors in this room. One straight ahead, one to your left, and one to your right.",
         99: "You enter a large chamber that smells like house fire. The furniture has been burnt beyond recognition, and the ceiling and walls are scorched and covered in soot. You see a door in either direction, one straight ahead, and one to either side. As you enter the room, your steps disturb the ash that covers the floor, revealing the checkered black-and-white floor beneath.\n\nThe floor is not trapped, but it is fun if the players think it is. If they spend a lot of time looking for loot in this room, roll 1d20. They find nothing except if they roll a 20. If they roll a 20, they find a can of paint that has miraculously survived the fire. If they open the paint can, they will find that it contains black-and-white checkered paint. When applied to a surface, it will paint that surface in the same checkered pattern as adorns the floor of this room. If they ask how it works, just say a wizard did it.",
-        100: "You enter a small, claustrophobic room, barely large enough for the four doors that adorn it, one in either direction.\n\nWouldn’t it be fun to have a random encounter here? It would be like fighting in a phone booth!"
+        100: "You enter a small, claustrophobic room, barely large enough for the four doors that adorn it, one in either direction.\n\nWouldn’t it be fun to have a random encounter here? It would be like fighting in a phone booth!",
+        // not part of the table. these are just the descriptions of tha first and last rooms of the dungeon.
+        101: "The entrance to the dungeon is dark and foreboding. You enter a small antechamber with a door straight ahead. There is no telling what dangers lie ahead.",
+        102: "Final room description goes here"
         };
     return descriptions[number] || "Invalid number. Please enter a number between 1 and 100.";
 }
