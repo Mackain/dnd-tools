@@ -201,6 +201,9 @@ function exploreDungeon(index){
 
     
     console.log("min rooms left: " + minNumberOfRooms)
+
+    output += getRandomPuzzleA();
+
     printDungeon(output)
 
 }
@@ -912,6 +915,66 @@ function getDescription(number) {
         100: "You enter a small, claustrophobic room, barely large enough for the four doors that adorn it, one in either direction.</br></br>Wouldn’t it be fun to have a random encounter here? It would be like fighting in a phone booth!",
         };
     return descriptions[number] || "Invalid number. Please enter a number between 1 and 100.";
+}
+
+
+function getPuzzleA(number) {
+    const puzzleDescriptionsA = {
+        1: "A large orb depicting the planet with all its continents. Around its orbit you see a large golden circle painted on the floor, faintly glowing with magical runes. <b>If a player steps on the circle expect for one specific spot they get electrified and take 1d4 damage. They can jump over it and stand inside the circle without issue.</b></br>A large mirror adorns one of the walls in the shape of the sun. The mirror emits a magical beam of light directly at the orb. In one of the corners you find a group of skeletons, a party of adventurers who died here long ago. (If studied you will find that they died of starvation)</br></br><i><b>Solving the puzzle:</b>First the players must rotate the orb so that its rotation to the sun matches the current rotation of the planet at this exact moment. Once that is done the circle on the floor will shine brighter. Then a player must stand on the circle in the exact place that corresponds to the moons current position relative to the planet in this exact moment. Once these two things are done, the door will open.</br></br><b>If your world has more than one moon:Consider expanding the puzzle to include all the moons (if there are enough players) or make is really clear which moon is the one to focus on, maybe the other moons are depicted on the floor, or represented as orbs on automatically rotating pillars.</b></i>",
+        2: "Four statues depicting warriors arranged in a square. The one furthest one to the left has the number 1 on its shield. The other numbers increase in clockwise order so that the one closes to you at the left has number 4. They are all facing you as you enter. In the center between them there is a depiction of a king painted on the floor. His eyes are closed and he has the number 5 written above him. Bellow whim is a text that reads “Face the king before he wakes.”<br/><br/><i><b>If a player touches any of the statue the number written over the king will decrease by one. Then the statue that the player touched ALONG WITH ALL STATUES OF A HIGHER NUMBER will rotate 90 degrees counter-clockwise.<b/><br/><br/><b>Solving the puzzle:<b/> Make all warriors face inward in 5 moves or less. This can be done by the following sequence: 1, 2, 2, 4, 4.<br/><b>If the number above the king reaches zero:<b/> his eyes will open. If the knights are not facing inwards by this time then his eyes will close again and all the statues will rotate back to their original position.</i>",
+        3: "A statue of Death holding a golden bowl. Inside the bowl there is an inscription: \“A pound of flesh, no more, no less.\”<br/><br/><i><b>Solving the puzzle:</b> Put precisely one pound of flesh in the bowl. Where will they get the flesh? How will they determine its exact weight? I have no idea, but they will have to figure that out themselves. (If some dumb thief tries to steal the golden bowl Death will come to life and give them the fight of their lives.)</i>",
+        4: "",
+        5: "",
+        6: "",
+        7: "",
+        8: "",
+        9: "",
+        10: "",
+        11: "",
+        12: "",
+        13: "",
+        14: "",
+        15: "",
+        16: "",
+        17: "",
+        18: "",
+        19: "",
+        20: "",
+    };
+    return puzzleDescriptionsA[number] || "Invalid number. Please enter a number between 1 and 20.";
+}
+
+
+
+
+function getRandomPuzzleA() {
+    return "</br>PUZZLE: </br></br>" + getPuzzleA(3);
+}
+
+function getPuzzleB(number) {
+    const puzzleDescriptionsB = {
+        1: "",
+        2: "",
+        3: "",
+        4: "",
+        5: "",
+        6: "",
+        7: "",
+        8: "",
+        9: "",
+        10: "",
+        11: "",
+        12: "",
+        13: "",
+        14: "",
+        15: "",
+        16: "",
+        17: "",
+        18: "",
+        19: "",
+        20: "",
+    };
+    return puzzleDescriptionsB[number] || "Invalid number. Please enter a number between 1 and 20.";
 }
 
 
