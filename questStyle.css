@@ -1,0 +1,178 @@
+html, body {
+    background-color: #000;
+}
+
+
+#menuBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: black;
+    color: white;
+}
+
+#menu {
+    background-color:rgba(0, 0, 0, 0.7);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    color: white;
+}
+
+#menuBox {
+    background-color: black;
+    width: 50%;
+    height: 50%;
+    top: 20%;
+    margin-left: 25%;
+    border: #414141;
+    border-style: solid;
+    text-align: center;
+    position: relative;
+}
+
+#menuBoxBox {
+    width:fit-content;
+    text-align: left;
+    margin-top: 5%;
+    margin-left: 25%;
+}
+
+#closeMenu {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+#container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 99%;
+    height: 99.9%;
+    background-image: url("https://mackain.github.io/dnd-tools/assets/max-suleimanov-dv-179.jpg");
+    background-repeat:no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+#logoContainer {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 20%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#logo {
+    max-width: 60%;
+    max-height: 100%;
+}
+
+#text-area {
+    background-color:rgba(0, 0, 0, 0.7);
+    color: white;
+    height: 100%;
+    width: 100%;
+    text-align: left;
+    box-sizing: border-box; padding: 10%;
+    font-size: x-large;
+    overflow:scroll;
+    overflow-x:hidden;
+    overflow-y:auto;
+}
+
+#textContainer {
+    position: absolute;
+    top: 20%;
+    height: 55%;
+    width: 100%;
+    text-align: center;
+}
+
+#controlPanel {
+    position: absolute;
+    bottom: 0%;
+    width: 100%;
+    height: 25%;
+    text-align: center;
+}
+
+#upperRow {
+    height: 40%;
+    
+}
+
+#lowerRow {
+    
+    text-align: center;
+    height: 40%;
+}
+
+#creditsContainer {
+    vertical-align: bottom;
+
+    color: white;
+    height: 20%;
+    text-align: center;
+}
+
+#credits {
+    vertical-align: bottom;
+
+    color: white;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+
+.navBtn {
+    background-color: #000;
+    color: white;
+    width: 200px;
+    height: 99%;
+    max-width: 25%;
+    max-height: 85%;
+    font-size: 15pt;
+    margin: 5px;
+}
+
+button:disabled {
+    background-color: #a0a0a0;
+    color: #ffffff;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+@media (min-width: 1000px) {
+
+    #container {
+        width: 100%;
+        height: 100%;
+    }
+
+    #logo {
+        max-width: 500px;
+        max-height: 100%;
+    }
+
+    #text-area {
+        background-color:rgba(0, 0, 0, 0.7);
+        color: white;
+        height: 100%;
+        width: 50%;
+        margin-left: 25%;
+        text-align: left;
+        box-sizing: border-box; padding: 2%;
+        font-size: x-large;
+        overflow:scroll;
+        overflow-x:hidden;
+        overflow-y:auto;
+    }
+}

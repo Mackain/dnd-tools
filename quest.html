@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dubious Dungeon Generator</title>
+    <script type="text/javascript" src="dungeon.js"></script>
+    <link rel="stylesheet" href="questStyle.css"/>
+</head>
+    <body>
+        <div id="container">
+            <div id="logoContainer">
+                <a href="https://dubiousbooks.com/"><img id="logo" src="https://mackain.github.io/dnd-tools/assets/logoQuest.png"></a>
+            </div>
+            <div id="textContainer">
+                <!--<textarea id="text-area" rows="10" cols="30"></textarea>-->
+                <div id="text-area"></div>
+
+            </div>
+            <!--<div id="controlPanel">
+                <div id="upperRow">
+                    <button class="navBtn" id="btnUp" onclick="exploreAhead()">Ahead</button>
+                </div>
+                <div id="lowerRow">
+                    <button class="navBtn" id="btnLeft" onclick="exploreLeft()">Left</button>
+                    <button class="navBtn" id="btnBack" onclick="goBack()">Back</button>
+                    <button class="navBtn" id="btnRight" onclick="exploreRight()">Right</button>
+                </div>
+                <div id="creditsContainer">
+                    <div id="credits">
+                        Background: <a href="https://www.artstation.com/refiend">Entrance to the dungeon by Max Suleimanov</a>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+        <button id = "menuBtn" onclick="toggleMenu()" >Settings</button>
+
+        <div id="menu">
+            <div id="menuBox">
+            </br></br>
+                <div style="font-size: xx-large;">Settings</div>
+                <div id="menuBoxBox">
+                    <div>
+                        <input type="checkbox" id="nonEuclideanArchitectureCheck" name="interest" onclick="updateNonEuclideanArchitecture()" />
+                        <label for="nonEuclideanArchitectureCheck">Non-Euclidean Architecture</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="roamingMobs" name="interest" value="coding" checked onclick="updateRoamingMobs()"/>
+                        <label for="roamingMobs">Roaming monsters</label>
+                    </div>
+                    <div>
+                        <div>Final room description:</div>
+                        <textarea id="finalRoomDescription" rows="10" cols="30" onchange="updateFinalRoomDescription()"></textarea>
+                    </div>
+                    <div>
+                        <input id="numberOfRooms" type="number" min="1" max="100" step="1" value="10" onclick="updateRoomNumber()"/>
+                        <label for="numberOfRooms">Minimum Number of rooms (requires reset)</label>
+                    </div>
+                </div>
+                <div id="menuText" style="color: red;"></div>
+
+                <button id="reset" onclick="resetDungeon()">Reset Dungeon</button>
+
+                <button id="closeMenu" onclick="toggleMenu()" >X</button>
+            </div>
+        </div>
+        <script>
+            startDungeonCrawl();
+        </script>
+    </body>
+</html>
+ 
