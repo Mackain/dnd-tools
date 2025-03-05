@@ -2,6 +2,15 @@ html, body {
     background-color: #000;
 }
 
+
+#menuBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: black;
+    color: white;
+}
+
 #menu {
     background-color:rgba(0, 0, 0, 0.7);
     position: absolute;
@@ -11,7 +20,6 @@ html, body {
     height: 100%;
     display: none;
     color: white;
-
 }
 
 #menuBox {
@@ -55,36 +63,35 @@ html, body {
     position: absolute;
     top: 0;
     width: 100%;
-    height: 10%;
+    height: 20%;
     text-align: center;
-    vertical-align: middle;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #logo {
-    max-width: 100%;
+    max-width: 60%;
     max-height: 100%;
-    vertical-align: middle;
 }
 
 #text-area {
     background-color:rgba(0, 0, 0, 0.7);
     color: white;
-    height: 99%;
-    width: 99%;
-
-    text-align: center;
+    height: 100%;
+    width: 100%;
+    text-align: left;
+    box-sizing: border-box; padding: 10%;
     font-size: x-large;
-
     overflow:scroll;
     overflow-x:hidden;
     overflow-y:auto;
-
 }
 
 #textContainer {
     position: absolute;
-    top: 10%;
-    height: 59%;
+    top: 20%;
+    height: 55%;
     width: 100%;
     text-align: center;
 }
@@ -93,7 +100,7 @@ html, body {
     position: absolute;
     bottom: 0%;
     width: 100%;
-    height: 30%;
+    height: 25%;
     text-align: center;
 }
 
@@ -146,57 +153,26 @@ button:disabled {
 @media (min-width: 1000px) {
 
     #container {
-        position: absolute;
-        top: 0;
-        left: 0;
         width: 100%;
         height: 100%;
-        background-image: url("https://mackain.github.io/dnd-tools/assets/max-suleimanov-dv-170.jpg");
-        background-repeat:no-repeat;
-        background-position: center center;
-        background-size: cover;
-        text-align: center;
+    }
+
+    #logo {
+        max-width: 500px;
+        max-height: 100%;
     }
 
     #text-area {
         background-color:rgba(0, 0, 0, 0.7);
         color: white;
         height: 100%;
-        width: 80%;
-        margin-left: 10%;
-        margin-top: 2%;
-        text-align: center;
+        width: 50%;
+        margin-left: 25%;
+        text-align: left;
+        box-sizing: border-box; padding: 2%;
         font-size: x-large;
-
-    }
-    #logoContainer {
-        position: absolute;
-        top: 0;
-        width: 100%;
-
-        text-align: center;
-    }
-
-    #logo {
-        max-width: 100%;
-        max-height: 100%;
-
-    }
-
-    #controlPanel {
-        position: absolute;
-        bottom: 0%;
-        width: 100%;
-        height: 25%;
-        text-align: center;
-    }
-
-    #menuBtn {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-
-        background-color: black;
-        color: white;
+        overflow:scroll;
+        overflow-x:hidden;
+        overflow-y:auto;
     }
 }
