@@ -1,6 +1,20 @@
 
+const hexDiameterInMiles = 6;
+var neerDoWell = "";
+
 function startQuest() {
     var quest = getRandomQuestGiver() + " wants you to " + getRandomQuestTask() + ", so that they can " + getRandomQuestGoal();
+    
+    // calculate dungeon location (if there is one)
+    if (quest.includes("dungeon")) {
+        console.log("Dungeon found!")
+        quest += "</br></br><i>The dungeon is " + randomizeLocation()+"</i>";
+    } else if (neerDoWell != "") {
+        console.log("No dungeon, but enemies!!")
+        quest += "</br></br><i>The "+ removeFirstWord(neerDoWell) +" can most likely be found " + randomizeLocation()+"</i>";
+    }
+    
+    
     printOutput(quest)
 }
 
@@ -8,6 +22,51 @@ function printOutput(output) {
     document.getElementById("text-area").innerHTML = output;
 }
 
+function randomizeLocation() {
+    var direction = "";
+    var distance = Math.ceil(Math.random() * 20);
+
+    switch(Math.ceil(Math.random() * 8)) {
+        case 1:
+          direction = "North"
+          break;
+        case 2:
+            direction = "Northeast"
+          break;
+        case 3:
+            direction = "East"
+          break;
+        case 4:
+            direction = "Southeast";
+          break;
+        case 5:
+            direction = "South";
+          break;
+        case 6:
+            direction = "Southwest";
+          break;
+        case 7:
+            direction = "West";
+          break;
+        default:
+            direction = "Northwest";
+          break;
+    }
+    
+    return distance + " hexes (" + (hexDiameterInMiles * distance) +" miles) to the " + direction;
+      
+}
+
+function removeFirstWord(str) {
+    return str.split(' ').slice(1).join(' ');
+}
+
+// ████████╗ █████╗ ██████╗ ██╗     ███████╗███████╗
+// ╚══██╔══╝██╔══██╗██╔══██╗██║     ██╔════╝██╔════╝
+//    ██║   ███████║██████╔╝██║     █████╗  ███████╗
+//    ██║   ██╔══██║██╔══██╗██║     ██╔══╝  ╚════██║
+//    ██║   ██║  ██║██████╔╝███████╗███████╗███████║
+//    ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚══════╝╚══════╝╚══════╝
 function getRandomQuestGiver() {
     return getQuestGiver(Math.ceil(Math.random() * 20))
 }
@@ -100,7 +159,8 @@ function getQuestGoal(number) {
 
 
 function getRandomNeerDoWell() {
-    return getNeerDoWell(Math.ceil(Math.random() * 20))
+    neerDoWell = getNeerDoWell(Math.ceil(Math.random() * 20));
+    return neerDoWell;
 }
 
 function getNeerDoWell(number) {
