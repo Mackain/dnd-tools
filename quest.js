@@ -3,7 +3,7 @@ const hexDiameterInMiles = 6;
 var neerDoWell = "";
 
 function startQuest() {
-    var quest = getRandomQuestGiver() + " wants you to " + getRandomQuestTask() + ", so that they can " + getRandomQuestGoal();
+    var quest = getRandomQuestGiver() + " wants you to " + getRandomQuestTask() + ", " + getRandomQuestGoal();
     
     // calculate dungeon location (if there is one)
     if (quest.includes("dungeon")) {
