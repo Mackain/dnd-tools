@@ -198,7 +198,7 @@ function getNeerDoWell(number) {
         17: "a mad mage, turned insane from studying forbidden knowledge",
         18: "a necromancer with their hoard of undead",
         19: "a secret cabal of vampires",
-        20: "a Dragon"
+        20: "A DRAGON"
     };
     return neerDoWellTable[number] || "Invalid number. Please enter a number between 1 and 20.";
 }
