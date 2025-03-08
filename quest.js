@@ -32,6 +32,10 @@ function printOutput(output) {
     document.getElementById("text-area").innerHTML = output;
 }
 
+function printHex() {
+    document.getElementById("hex-text-area").innerHTML = getRandomHex();
+}
+
 function randomizeLocation() {
     var direction = "";
     var distance = Math.ceil(Math.random() * 20);
@@ -200,4 +204,33 @@ function getNeerDoWell(number) {
 }
 
 
+function getRandomHex() {
+    return getHex(Math.ceil(Math.random() * 20));
+}
+
+function getHex(number) {
+    const hexTable = {
+        1: "The same terrain as the previous tile <i>(if previous tile was a large settlement like a city or capital you should instead use the terrain of the surrounding area)</i>",
+        2: "The same terrain as the previous tile <i>(if previous tile was a large settlement like a city or capital you should instead use the terrain of the surrounding area)</i>",
+        3: "The same terrain as the previous tile <i>(if previous tile was a large settlement like a city or capital you should instead use the terrain of the surrounding area)</i>",
+        4: "The same terrain as the previous tile <i>(if previous tile was a large settlement like a city or capital you should instead use the terrain of the surrounding area)</i>",
+        5: "The same terrain as the previous tile <i>(if previous tile was a large settlement like a city or capital you should instead use the terrain of the surrounding area)</i>",
+        6: "The same terrain as the previous tile <i>(if previous tile was a large settlement like a city or capital you should instead use the terrain of the surrounding area)</i>",
+        7: "Plains ",
+        8: "Plains ",
+        9: "Hills",
+        10: "Hills",
+        11: "Forest",
+        12: "Forest",
+        13: "Mountains",
+        14: "Mountains",
+        15: "Wasteland",
+        16: "Bog",
+        17: "A Town",
+        18: "A Town",
+        19: "A large city",
+        20: "A capital (A large city have a capital... or draw a border between two regions?)"
+    };
+    return hexTable[number] || "Invalid number. Please enter a number between 1 and 20.";
+}
 
