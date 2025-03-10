@@ -15,7 +15,6 @@ function startQuest() {
         quest += "</br></br><i>The "+ removeFirstWord(neerDoWell) +" can most likely be found " + randomizeLocation()+"</i>";
     }
     
-    
     printOutput(quest)
 }
 
@@ -32,8 +31,223 @@ function printOutput(output) {
     document.getElementById("text-area").innerHTML = output;
 }
 
-function printHex() {
-    document.getElementById("hex-text-area").innerHTML = getRandomHex();
+function printHex(wilderness) {
+
+    var hexOutput = ""
+    var addition = "";
+    
+    hexOutput += getRandomHex(wilderness);
+    
+
+    if (wilderness) {
+        switch(Math.ceil(Math.random() * 8)) {
+            case 1:
+                addition = "You see a farmstead in the distance, alone in the wilderness."
+                break;
+            case 2:
+                addition = "Nothing out of the ordinary."
+                break;
+            case 3:
+                addition = "Nothing out of the ordinary."
+                break;
+            case 4:
+                addition = getRandomEvent();
+                break;
+            case 5:
+                addition = getRandomEncounter();
+                break;
+            case 6:
+                addition = getRandomEncounter();
+                break;
+            case 7:
+                addition = getRandomEncounter();
+                break;
+            default:
+                addition = getRandomEncounter();
+                break;
+        }
+        
+    } else {
+        switch(Math.ceil(Math.random() * 12)) {
+            case 1:
+                addition = "You also see a farmstead in the distance.";
+                break;
+            case 2:
+                addition = "You pass near a hamlet.";
+                break;
+            case 3:
+                addition = "You pass trough a village.";
+                break;
+            case 4:
+                addition = "You pass trough a town";
+                break;
+            case 5:
+                addition = "Nothing out of the ordinary.";
+                break;
+            case 6:
+                addition = "Nothing out of the ordinary.";
+                break;
+            case 7:
+                addition = getRandomEvent();
+                break;
+            case 8:
+                addition = getRandomEvent();
+                break;
+            case 9:
+                addition = getRandomEvent();
+                break;
+            case 10:
+                addition = getRandomEncounter();
+                break;
+            case 11:
+                addition = getRandomEncounter();
+                break;
+            default:
+                addition = getRandomEncounter();
+                break;
+        }
+    }
+
+    document.getElementById("hex-text-area").innerHTML = hexOutput + "</br></br>" + addition;
+
+}
+
+function getRandomEvent() {
+    var encounter = "";
+
+    switch(Math.ceil(Math.random() * 20)) {
+        case 1:
+            encounter = "You come across a traveling merchant going the other way that offers you a look at their wares.";
+            break;
+        case 2:
+            encounter = "You meet an alchemist who is out gathering herbs for their potions. They live nearby and can be convinced to offer you shelter for the night and perhaps even sell you a potion or two."
+            break;
+        case 3:
+            encounter = "You meet a local hunter who has been lived in the area all their lives. They tell you that a recent mudslide has revealed the entrance to what appears to be an ancient dungeon that previously was buried deep beneath the earth. It is located just a few miles away.";
+            break;
+        case 4:
+            encounter = "You meet a local druid who is out for a stroll. If they deem you friendly to nature and its inhabitants they will tell you of a shortcut nearby that will allow you to travel an extra hex today.";
+            break;
+        case 5:
+            encounter = "You meet a mage traveling alone on their mule. They say there will be a cosmic event soon that only happens once during a lifetime and they are traveling to witness it.";
+            break;
+        case 6:
+            encounter = "You meet a band of knights riding in the opposite direction. They are traveling to a nearby city to swear fealty to the new ruler and will not be interrupted. If approached without showing the proper respect they may mistake you for a group of bandits and attack in self-defense.";
+            break;
+        case 7:
+            encounter = "You meet a tracker. They have been hired by the local ruler to track down " + getRandomNeerDoWell() + ".";
+            break;
+        case 8:
+            encounter = "You meet a group of pilgrims on their way to visit an ancient shrine in the mountains. They do not have much information, nor anything to offer in terms of trade. But if you show them hospitality and kindness perhaps you will earn the favor of the gods?";
+            break;
+        case 9:
+            encounter = "A caravan of merchants are traveling in the same direction as you for 1d6 hexes. They ask if you want to escort them for the remainder of the journey. (Or at least for as long as you will travel alongside them, if your journey is shorter.) In exchange they offer 10 gold per day as well as food for the journey. You may also browse their wares.";
+            break;
+        case 10:
+            encounter = "Tracks lead of into the distance. It appears " + getRandomNeerDoWell() + " have recently traveled trough this area. Their tracks lead to a hidden dungeon.";
+            break;
+        case 11:
+            encounter = "You meet a party of adventurers who are traveling the opposite direction. They will gladly exchange rumors or trade gear.";
+            break;
+        case 12:
+            encounter = "A group of armed dwarves are traveling to the mountains. They are on a mission from their homeland to reclaim a dungeon that was lost to them centuries ago.";
+            break;
+        case 13:
+            encounter = "A group of armed elves are traveling to the forest. They are on a mission from their homeland to reclaim a dungeon that was lost to them centuries ago.";
+            break;
+        case 14:
+            encounter = "A sudden rainstorm rolls in unexpectedly as you seek shelter from the storm you discover the entrance to a dungeon hidden in a cave.";
+            break;
+        case 15:
+            encounter = "An intense storm rolls in over the land. Harsh winds and heavy rain makes travel difficult. You should probably seek shelter because even if you press on you will be slowed down so much that you wont make much progress. This hex takes a full day to clear, even on horseback.";
+            break;
+        case 16:
+            encounter = "Further ahead you see " + getRandomNeerDoWell() + " hiding in an ambush... but they are facing the other way and have not noticed you yet! They are waiting for a caravan of merchants that you can see further ahead who are coming this way.";
+            break;
+        case 17:
+            encounter = "A group of adventurers are fighting against " + getRandomNeerDoWell() + ". If you join the fight they will be thankful for the aid but be reluctant to share the spoils. This was a bounty that they have been tracking for days and a nice reward of 2000 gold is awaiting them in a nearby city. (If the players allow the other adventurers to collect the bounty themselves they will receive a message delivered by courier in 1d12 days. It is a thank you from the other adventurers and 1000 gold)";
+            break;
+        case 18:
+            encounter = "You unexpectedly fin a path that cuts trough the land cutting a lot of time off your travel. You will be able to cover one extra hex today! (Only one, regardless of mode of transport.)";
+            break;
+        case 19:
+            encounter = "You see smoke and hear the sound of battle nearby. If you approach you will find a group of traveling merchants being attacked by " + getRandomNeerDoWell() + ". The security they hired has already been defeated and their carriage is on fire. If rescued they will reward you with 1d6 * 100 gold. (Double that if you manage to put out the fire withing 1d6 turns)";
+            break;
+        default:
+            encounter = "You suddenly notice that a mysterious old wizard is walking alongside you. When you ask him who he is or what he wants he will first try to gaslight you into believing he has always been a part of your party. If you insist he will finally yield and confess that he is just messing around. He is a powerful high level wizard but he is absolutely unhelpful. He will not aid in fights or assist you in any way beyond shouting words of encouragement. After a day or two he will disappear just as abruptly as he appeared when nobody is watching.";
+            break;
+    }
+
+    return "<b><span style='color: yellow;'>AN EVENT! </span></b>: <i>" + encounter + "</i>";
+}
+
+function getRandomEncounter() {
+    var encounter = "";
+
+    switch(Math.ceil(Math.random() * 20)) {
+        case 1:
+            encounter = Math.ceil(Math.random() * 10) + " kobolds";
+            break;
+        case 2:
+            encounter = Math.ceil(Math.random() * 10) + " goblins";
+            break;
+        case 3:
+            encounter = Math.ceil(Math.random() * 10) + " bandits";
+            break;
+        case 4:
+            encounter = Math.ceil(Math.random() * 6) + " wolves";
+            break;
+        case 5:
+            encounter = Math.ceil(Math.random() * 8) + " orc raiders";
+            break;
+        case 6:
+            encounter = Math.ceil(Math.random() * 8) + " gnolls";
+            break;
+        case 7:
+            encounter = "a brown bear";
+            break;
+        case 8:
+            encounter = "an ogre";
+            break;
+        case 9:
+            encounter = "a cyclops";
+            break;
+        case 10:
+            encounter = "a hobgoblin and their " + Math.ceil(Math.random() * 4) + " goblin minions";
+            break;
+        case 11:
+            encounter = Math.ceil(Math.random() * 6) + " fanatical cultists looking for a sacrifice to their demon lord.";
+            break;
+        case 12:
+            encounter = Math.ceil(Math.random() * 8) + " harpies";
+            break;
+        case 13:
+            encounter = "a hag";
+            break;
+        case 14:
+            encounter = "a giant";
+            break;
+        case 15:
+            encounter = "a single orc, heavily armored and mad with rage";
+            break;
+        case 16:
+            encounter = Math.ceil(Math.random() * 10) + " skeletons who emerge from a nearby hidden dungeon";
+            break;
+        case 17:
+            encounter = "a troll";
+            break;
+        case 18:
+            encounter = "a thief";
+            break;
+        case 19:
+            encounter = "a traveler who turns out to be a devil in disguise";
+            break;
+        default:
+            encounter = "A DRAGON!";
+            break;
+    }
+
+    return "<b><span style='color: red;'>AN ENCOUNTER! </span></b>: " + encounter;
 }
 
 function randomizeLocation() {
@@ -204,8 +418,12 @@ function getNeerDoWell(number) {
 }
 
 
-function getRandomHex() {
-    return getHex(Math.ceil(Math.random() * 20));
+function getRandomHex(wilderness) {
+    if (wilderness) {
+        return getHex(Math.ceil(Math.random() * 16));
+    } else {
+        return getHex(Math.ceil(Math.random() * 20));
+    }
 }
 
 function getHex(number) {
