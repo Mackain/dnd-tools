@@ -164,6 +164,8 @@ function exploreDungeon(index){
 
         blockedNumbers = calculateBlockedNumbers(index);
         // console.log("blocked numbers: " + blockedNumbers);
+
+        
         var d100 = rollRoom(blockedNumbers);
         var dir = getConnectingPaths(d100) 
         console.log ("possible paths: " + dir)
@@ -211,9 +213,19 @@ function exploreDungeon(index){
 
 function rollRoom(blockedNumbers) {
     let randomNumber;
-    do {
-      randomNumber = Math.ceil(Math.random() * 100);
-    } while (blockedNumbers.includes(randomNumber));
+
+    // should not be possible... but what if all numbers are blocked?
+    if (blockedNumbers.length == dungeon.length) {
+        console.log("ERROR NO POSSIBLE PATHS!");
+        // im sure this is fine...
+        randomNumber = Math.ceil(Math.random() * 100);
+    } else {
+        do {
+            randomNumber = Math.ceil(Math.random() * 100);
+          } while (blockedNumbers.includes(randomNumber));
+    }
+
+    
     return randomNumber;
   }
 
