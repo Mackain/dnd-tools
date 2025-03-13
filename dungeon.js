@@ -1012,6 +1012,35 @@ function getRandomFlair() {
 }
 
 
+function getFlair(number) {
+    const flairTable = {
+        1 : "You see a pentagram drawn on the floor with an incantation written around it. If the incantation is read out loud the pentagram will turn into a portal that connects this dungeon to another random part of the dungeon (maybe one that you have not explored yet?) and the portal will remain open enabling passage in both directions.",
+        2 : "In one random part of the room you can hear (DC 15) faint music. It is barely audible and sounds long someone humming a melody. If a player sings along, or harmonizes, or plays along on an instrument the music will get louder. If more than one player joins then a treasure chest will materialize near them containing a golden flute worth 200 gold.",
+        3 : "A big fat goblin has declared himself king and has turned this room into his court. He sits on a poorly constructed throne while 1d8 other goblins are attending to his needs. When they notice you they will not attack right away but instead expect you to pay tribute to the king.",
+        4 : "A strange bio-luminescent fungus has spread trough this room. Covering it in glowing mycelium that lights up the room with an eerie cold light. </br></br><i> Breathing these spores is bad. After 1d10 rounds in this room the players will start to feel woozy, and 1d4 rounds after that they will have to start to roll some sort of checks (based on whatever system you are using) not to fall unconscious. If the say that they will simply hold their breath you can point out to them that the spores are already in their lungs and they should probably hurry to get out of here.</i>",
+        5 : "A backpack lies abandoned on the floor. Inside there is only one item. A small wooden box with the text “DO NOT OPEN!!!!” written all over it on every side. </br><i>If the players do open it it explodes dealing 4d6 damage!</i>",
+        6 : "A beautiful person (your choice, or random) calls out to the party as they enter. Embracing the closes party member, telling them that they where brought here against their will and have been lost in the dungeon for days. </br></br><i> The person is a vampire (or a low-level equivalent if needed). They wont attack the party directly, instead they will play the role of helpless soul in need of rescue. They will accompany the party for as long as they can (maybe even out of the dungeon) and then either strike when they least expect it, or perhaps just gather information about the party and their quest</i>",
+        7 : "A beautiful person (your choice, or random) calls out to the party as they enter. Embracing the closes party member, telling them that they where brought here against their will and have been lost in the dungeon for days.</br></br><i>The person is what they say they are.</i>",
+        8 : "This room has seemingly been used for some sort of ritual. There are arcane writings on the wall and what appears to be a summoning circle has been drawn on the floor. </br></br><i> If the players try to summon something using the circle roll a d20. On a 20 they succeed but on a 1 they also succeed, where a devil appears telling them to “quit calling me” then dispersal.</i>",
+        9 : "You encounter a kobold with an eyepatch, hauling a large suitcase. The kobold will ask you not to fight, but instead will open the suitcase to let you have a look at his wares that he has for sale.</br></br><i> He has: "+ getRandomMundaneLoot(8) +"and sells each item for one gold.</i>",
+        10 : "This room is freezing cold and entirely covered in ice. The floor is slippery and difficult to maneuver. <i>If the players try to find out why they will simply find that a wizard did it.</i>",
+        11 : "",
+        12 : "",
+        13 : "",
+        14 : "",
+        15 : "",
+        16 : "",
+        17 : "",
+        18 : "",
+        19 : "",
+        20 : ""
+
+        };
+    return flairTable[number] || "Invalid number. Please enter a number between 1 and 20.";
+}
+
+
+
 function toggleMenu() {
     var menu = document.getElementById('menu');
     if(menu.style.display == "block") {
