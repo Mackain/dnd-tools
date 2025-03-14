@@ -141,7 +141,7 @@ function exploreDungeon(index){
         console.log("WE HAVE BEEN HERE BEFORE!")
         revisitingRoom = true;
         // aw shiet.. time to do some heavy calculations...
-        output += "You re-enter a room you have already explored!</br>"
+        output += "You re-enter a room you have already explored, and turn to face the same direction you faced when first entering the room!</br>"
 
         // TODO no need to generate new room... but we need to spin!
         if(dungeon[index].firstFacing != facing){
@@ -185,8 +185,8 @@ function exploreDungeon(index){
     if (d4 == 1) {
         console.log("RANDOM FLAIR")
         // console.log(getRandomFlair());
+        output += "</br></br><b><span style='color: yellow;'>-ROOM FLAIR!-</span></b></br>"+getRandomFlair()
     }
-
     
     // do not allow mobs in visited rooms if roaming enemies is disabled.
     if (revisitingRoom && roamingEnemies == false) {
@@ -323,8 +323,6 @@ function exploreLeft() {
     exploreDungeon(playerLocation);
 }
 
-
-
 // takes a die roll for the Random dungeon table and generates a room 
 // based on facing direction and places it in the dungeon on set index.
 function setRoom(index, dieRoll) {
@@ -336,8 +334,6 @@ function setRoom(index, dieRoll) {
     // stick it in the dungeon
     dungeon[index] = room;
 }
-
-
 
 // takes the index of an unexplored room and based in the facing variable returns
 // directions (ARBL) that cannot be explored from that tile
@@ -1008,7 +1004,7 @@ function getEncounter(number) {
 }
 
 function getRandomFlair() {
-    return "flair not yet implemented..."
+    return getFlair(Math.ceil(Math.random() * 20))
 }
 
 
@@ -1024,17 +1020,16 @@ function getFlair(number) {
         8 : "This room has seemingly been used for some sort of ritual. There are arcane writings on the wall and what appears to be a summoning circle has been drawn on the floor. </br></br><i> If the players try to summon something using the circle roll a d20. On a 20 they succeed but on a 1 they also succeed, where a devil appears telling them to “quit calling me” then dispersal.</i>",
         9 : "You encounter a kobold with an eyepatch, hauling a large suitcase. The kobold will ask you not to fight, but instead will open the suitcase to let you have a look at his wares that he has for sale.</br></br><i> He has: "+ getRandomMundaneLoot(8) +"and sells each item for one gold.</i>",
         10 : "This room is freezing cold and entirely covered in ice. The floor is slippery and difficult to maneuver. <i>If the players try to find out why they will simply find that a wizard did it.</i>",
-        11 : "",
-        12 : "",
-        13 : "",
-        14 : "",
-        15 : "",
-        16 : "",
-        17 : "",
-        18 : "",
-        19 : "",
-        20 : ""
-
+        11 : "An incredible sense of dread fills you in this room that you cannot place. Something is terribly wrong here. </br></br><i> If the players have some way of sensing the source of this unnatural feeling they will find that it emanates from a certain spot underneath the stone floor. If they try to dig it up they will find a coffin buried in a shallow grave under the floor. Inside the coffin is a skeleton that is radiating a terrible feeling of dread that gets more and more intense as they get closer to it. Burning the body or somehow removing the curse will lift the curse and they will get a feeling that the body is at peace.</i>",
+        12 : "This ceiling of this room is absolutely covered in bats and the whole room stinks of guano. The bats will remain dormant unless they get disturbed by something, if they are they will begin to swarm like crazy.",
+        13 : "An ogre is sleeping in here. It has apparently downed an entire barrel of wine and is now passed out on the floor. It will continue to sleep unless disturbed by something touching it or some loud noise.",
+        14 : "You interrupt what appears to be a goblin joust tournament. 1d12 goblins are watching as two goblins riding on giant rats are charging at each other with quarterstaves as lances. The crowd is rowdy and loud and will not notice you right away. When they do notice you they will ask you to either place your bets, sell them food (they have no money) or join the tournament.",
+        15 : "This room is completely covered in insects... gross...",
+        16 : "You hear a loud noise as a crack form in the ceiling. The ceiling will collapse in 1d12 rounds. Until the collapse the crack will get larger and larger every round and there will be a lot of noise and debris falling. When the ceiling finally does collapse the entire room will fill with rubble. It takes 30 minutes to clear 5 cubic feet of rubble.",
+        17 : "The walls are covered from floor to ceiling in arcane writing and strange runes.",
+        18 : "A ghost appears and points to a section of the wall. Behind the wall is a skeleton, clutching a sword. If you grab the sword you see a vision of a young man, and instinctively know you have to deliver the sword to him... though you know not his name or where he is.",
+        19 : "You hear an evil laugh coming from deep within the dungeon, and you suddenly get a feeling that your presence here is known",
+        20 : "You suddenly notice that a mysterious old wizard is walking alongside you. When you ask him who he is or what he wants he will first try to gaslight you into believing he has always been a part of your party. If you insist he will finally yield and confess that he is just messing around. He is a powerful high level wizard but he is absolutely unhelpful. He will not aid in fights or assist you in any way beyond shouting words of encouragement. He will disappear just as abruptly as he appeared when nobody is watching."
         };
     return flairTable[number] || "Invalid number. Please enter a number between 1 and 20.";
 }
