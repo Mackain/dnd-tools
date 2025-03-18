@@ -114,6 +114,7 @@ function checkRoomForDoors(room){
 
 function exploreDungeon(index){
     output = "";
+    var flair = null;
     blockedPaths = "";
     connectedPaths = "";
     var roomDescription = "";
@@ -182,10 +183,14 @@ function exploreDungeon(index){
     output += roomDescription;
 
 
-    if (d4 == 1) {
+    if (d4 == 1 && dungeon[index].storedFlair == null && !revisitingRoom) {
         console.log("RANDOM FLAIR")
         // console.log(getRandomFlair());
-        output += "</br></br><b><span style='color: yellow;'>-ROOM FLAIR!-</span></b></br>"+getRandomFlair()
+        flair = getRandomFlair();
+        dungeon[index].storedFlair = flair;
+        output += "</br></br><b><span style='color: yellow;'>-ROOM FLAIR!-</span></b></br>" + flair;
+    } else if (dungeon[index].storedFlair != null) {
+        output += "</br></br><b><span style='color: yellow;'>-ROOM FLAIR!-</span></b></br>" + dungeon[index].storedFlair;
     }
     
     // do not allow mobs in visited rooms if roaming enemies is disabled.
