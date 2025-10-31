@@ -18,6 +18,23 @@ function startQuest() {
     printOutput(quest)
 }
 
+function getQuest(d20){
+
+
+    // do this here to only do it once and save compute.
+    neerDoWell = getRandomNeerDoWell();
+    var quest = getRandomQuestGiver() + " wants you to " + getRandomQuestTask() + ", " + getRandomQuestGoal();
+    // calculate dungeon location (if there is one)
+    if (quest.includes("dungeon")) {
+        console.log("Dungeon found!")
+        quest += "</br></br><i>The dungeon is " + randomizeLocation()+"</i>";
+    } else if (questHasNeerDoWell()) {
+        console.log("No dungeon, but enemies!!")
+        quest += "</br></br><i>The "+ removeFirstWord(neerDoWell) +" can most likely be found " + randomizeLocation()+"</i>";
+    }
+    return quest;
+}
+
 function questHasNeerDoWell(){
     const specialQuests = [1, 4, 5, 8, 9, 12, 16, 17]; 
     if (specialQuests.includes(questIndex)) {

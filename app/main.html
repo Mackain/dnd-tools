@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>D&D Tools — Tabs</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="../quest.js"></script> <!-- your getQuest() function -->
+
+  <style>
+    .tab-folder {
+      transform: translateY(-12px);
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    .tab-active {
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .tab-inactive {
+      background: rgba(0, 0, 0, 0.4);
+      color: rgba(255, 255, 255, 0.7);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .rounded-3only {
+      border-top-left-radius: 0;
+      border-top-right-radius: 1rem;
+      border-bottom-right-radius: 1rem;
+      border-bottom-left-radius: 1rem;
+    }
+
+    html, body { height: 100%; }
+  </style>
+</head>
+
+<body
+  class="h-full w-full bg-center bg-cover relative overflow-hidden"
+  style="background-image:url('https://mackain.github.io/dnd-tools/assets/max-suleimanov-dv-134.jpg');"
+>
+
+  <!-- Hamburger Menu -->
+  <div class="absolute top-6 right-6 z-50">
+    <button id="menu-btn" class="flex flex-col space-y-1.5 bg-black/40 hover:bg-black/60 p-3 rounded-lg transition">
+      <span class="block w-6 h-0.5 bg-white"></span>
+      <span class="block w-6 h-0.5 bg-white"></span>
+      <span class="block w-6 h-0.5 bg-white"></span>
+    </button>
+
+    <!-- Dropdown -->
+    <div id="menu" class="hidden flex-col absolute right-0 mt-3 bg-black/70 text-white rounded-lg shadow-lg py-2 w-36 backdrop-blur-md">
+      <button id="foo-btn" class="px-4 py-2 text-left hover:bg-white/10 transition">Foo</button>
+      <button id="bar-btn" class="px-4 py-2 text-left hover:bg-white/10 transition">Bar</button>
+    </div>
+  </div>
+
+  <!-- Centered area -->
+  <div class="min-h-screen flex items-center justify-center">
+    <div class="relative w-[92%] max-w-4xl">
+
+      <!-- Folder Tabs -->
+      <div class="flex items-end gap-3 z-10">
+        <button class="tab-folder px-6 py-2 border rounded-t-2xl text-lg -mb-3 tab-btn tab-active"
+                data-tab="start">Start</button>
+        <button class="tab-folder px-6 py-2 border rounded-t-2xl text-lg -mb-3 tab-btn tab-inactive"
+                data-tab="quest">Quest</button>
+        <button class="tab-folder px-6 py-2 border rounded-t-2xl text-lg -mb-3 tab-btn tab-inactive"
+                data-tab="hex">Hex Crawl</button>
+      </div>
+
+      <!-- Main window -->
+      <div class="bg-black/60 rounded-3only backdrop-blur-md p-8 text-white shadow-2xl border border-white/10 mt-0">
+        <div id="tab-contents" class="relative min-h-[60vh] flex items-center justify-center">
+          
+          <!-- Start -->
+          <div id="pane-start" class="absolute inset-0 flex items-center justify-center">
+            <img
+              src="https://mackain.github.io/dnd-tools/assets/title.png"
+              alt="Logo"
+              class="max-w-[80%] md:max-w-[55%] drop-shadow-2xl"
+            />
+          </div>
+
+          <!-- Quest -->
+        <div id="pane-quest" class="absolute inset-0 hidden flex-col items-center justify-center space-y-6 text-center relative">
+            <h1 class="text-4xl md:text-5xl font-bold">Quest Generator</h1>
+
+            <!-- Quest output -->
+            <div id="quest-output" class="max-w-2xl mt-6 text-xl">Press the button to begin!</div>
+
+                        <button id="quest-btn" class="px-6 py-3 rounded-lg bg-yellow-600/70 hover:bg-yellow-500/80 transition text-white text-lg font-semibold shadow-lg hover:shadow-yellow-500/30">
+                Begin Quest
+            </button>
+
+            <!-- Dice roll container -->
+            <div id="dice-container" class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <img id="dice-img" src="../assets/d20.png" class="w-32 h-32 opacity-0 absolute">
+                <span id="dice-number" class="absolute text-4xl font-bold text-white opacity-0"></span>
+            </div>
+
+        </div>
+
+          <!-- Hex Crawl -->
+          <div id="pane-hex" class="absolute inset-0 hidden flex-col items-center justify-center space-y-6">
+            <h1 class="text-4xl md:text-5xl font-bold">Hex Crawl</h1>
+            <button class="px-6 py-3 rounded-lg bg-emerald-600/70 hover:bg-emerald-500/80 transition text-white text-lg font-semibold shadow-lg hover:shadow-emerald-500/30">
+              Start Exploration
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fullscreen overlays -->
+  <div id="foo-div" class="hidden fixed inset-0 bg-black/90 text-white text-center flex items-center justify-center text-5xl font-semibold backdrop-blur-md z-40">Foo</div>
+  <div id="bar-div" class="hidden fixed inset-0 bg-black/90 text-white text-center flex items-center justify-center text-5xl font-semibold backdrop-blur-md z-40">Bar</div>
+
+  <script>
+    // Hamburger menu
+    const menuBtn = document.getElementById('menu-btn');
+    const menu = document.getElementById('menu');
+    menuBtn.addEventListener('click', () => menu.classList.toggle('hidden'));
+
+    // Overlays
+    const fooBtn = document.getElementById('foo-btn');
+    const barBtn = document.getElementById('bar-btn');
+    const fooDiv = document.getElementById('foo-div');
+    const barDiv = document.getElementById('bar-div');
+
+    function showDiv(div) {
+      [fooDiv, barDiv].forEach(el => el.classList.add('hidden'));
+      div.classList.remove('hidden');
+      gsap.fromTo(div,{y:"100%",opacity:0},{y:"0%",opacity:1,duration:0.5,ease:"power3.out"});
+    }
+
+    fooBtn?.addEventListener("click",()=>{ showDiv(fooDiv); menu.classList.add("hidden"); });
+    barBtn?.addEventListener("click",()=>{ showDiv(barDiv); menu.classList.add("hidden"); });
+    [fooDiv,barDiv].forEach(div=>div.addEventListener("click",()=>gsap.to(div,{y:"100%",opacity:0,duration:0.5,ease:"power3.in",onComplete:()=>div.classList.add("hidden")})));
+
+    // Tabs
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const panes = {
+      start: document.getElementById('pane-start'),
+      quest: document.getElementById('pane-quest'),
+      hex: document.getElementById('pane-hex')
+    };
+
+    function setActiveTab(name){
+      tabButtons.forEach(btn=>{
+        const isActive = btn.dataset.tab===name;
+        btn.classList.toggle('tab-active',isActive);
+        btn.classList.toggle('tab-inactive',!isActive);
+      });
+      Object.entries(panes).forEach(([key,el])=>{
+        if(key===name){
+          el.classList.remove('hidden');
+          gsap.fromTo(el,{y:16,opacity:0},{y:0,opacity:1,duration:0.45,ease:'power3.out'});
+        } else if(!el.classList.contains('hidden')){
+          gsap.to(el,{y:-8,opacity:0,duration:0.25,ease:'power1.in',onComplete:()=>el.classList.add('hidden')});
+        }
+      });
+    }
+
+    tabButtons.forEach(btn=>btn.addEventListener('click',()=>setActiveTab(btn.dataset.tab)));
+    setActiveTab('start');
+
+    // Quest button with dice roll animation
+const questBtn = document.getElementById('quest-btn');
+const questOutput = document.getElementById('quest-output');
+const diceImg = document.getElementById('dice-img');
+const diceNumber = document.getElementById('dice-number');
+
+questBtn.addEventListener('click', () => {
+  const dieRoll = Math.floor(Math.random() * 20) + 1;
+
+  // 0. Fade out previous quest text first
+  gsap.to(questOutput, {
+    opacity: 0,
+    duration: 0.4,
+    ease: "power1.inOut",
+    onComplete: () => {
+      //questOutput.innerHTML = ""; // clear previous HTML
+
+      // Reset dice display
+      gsap.set(diceImg, {opacity:1, rotation:0, scale:1});
+      gsap.set(diceNumber, {opacity:0, scale:1});
+
+      // 1. Spin the die rapidly
+      gsap.fromTo(diceImg, {rotation:0}, {rotation:1080, duration:1, ease:"power2.inOut"});
+
+      // 2. Slow spin & stop at upright
+      gsap.to(diceImg, {
+        rotation:0,
+        duration:0.6,
+        delay:1,
+        ease:"power2.out",
+        onComplete:() => {
+          // 3. Show the number on top
+          diceNumber.textContent = dieRoll;
+          gsap.to(diceNumber, {opacity:1, scale:1.2, duration:0.3, ease:"back.out(1.7)"});
+
+          // 4. Disperse dice and show quest
+          gsap.to([diceImg, diceNumber], {
+            opacity:0,
+            scale:0,
+            duration:0.8,
+            delay:0.8,
+            ease:"power2.in",
+            onComplete:() => {
+              // Generate quest HTML
+              try {
+                const questHTML = getQuest(dieRoll); // returns HTML
+                questOutput.innerHTML = questHTML;   // render HTML properly
+                gsap.fromTo(questOutput, {opacity:0, y:30}, {opacity:1, y:0, duration:0.8, ease:"power3.out"});
+              } catch(e) {
+                questOutput.innerHTML = "⚠️ Could not load quest.";
+                gsap.fromTo(questOutput, {opacity:0}, {opacity:1, duration:0.5});
+              }
+            }
+          });
+        }
+      });
+    }
+  });
+});
+
+
+  </script>
+</body>
+</html>
